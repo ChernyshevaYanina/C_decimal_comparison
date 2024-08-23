@@ -41,7 +41,7 @@ void reverseString(char* string) {
 /// @brief Приводит децимал к бинарному виду
 /// @param value децимал
 /// @param binaryOutput строка в бинароном виде
-void decimalMantisToBinary(s21_decimal value, char* binaryOutput) {
+void decimalMantisToBinary(decimal value, char* binaryOutput) {
   char binaryLocal[SIZE_BIN];
   clear(binaryLocal, SIZE_BIN);
   for (int countBit = 0; countBit <= 2; countBit++) {
@@ -195,7 +195,7 @@ void clearCharZeroes(char* input) {
 /// @param value_2 второй децимал
 /// @return если знаки одинаковые возвращает kEqual, если знаки отличаются, то
 /// возвращает либо kLess, либо kGreater
-int checkSign(s21_decimal value_1, s21_decimal value_2) {
+int checkSign(decimal value_1, decimal value_2) {
   int result = kEqual;
   int left_sign = getSign(value_1.bits[3]);
   int right_sign = getSign(value_2.bits[3]);
@@ -272,7 +272,7 @@ void equalizeFractional(char* left_fractional, char* right_fractional) {
 /// то возвращает либо kLess, либо kGreater, меняет значения возвращаемых
 /// значений, если оба числа отрицательные, возвращает kError, если что-то пошло
 /// не так
-int s21_compare(s21_decimal value_1, s21_decimal value_2) {
+int compare(decimal value_1, decimal value_2) {
   int result = 0;
   char left_binary_string[SIZE_BIN], right_binary_string[SIZE_BIN];
   clear(left_binary_string, SIZE_BIN);
@@ -305,7 +305,7 @@ int s21_compare(s21_decimal value_1, s21_decimal value_2) {
                     r_fractional);
     int l_integr_len = strlen(l_integral);
     int r_integr_len = strlen(r_integral);
-    
+
     if (checkSign(value_1, value_2) == kLess) {
       result = kLess;
     } else if (checkSign(value_1, value_2) == kGreater) {
@@ -342,21 +342,21 @@ int s21_compare(s21_decimal value_1, s21_decimal value_2) {
 
 /// @param value_1 первый децимал
 /// @param value_2 второй децимал
-/// @return возвращает kTrue, если s21_compare возвращает kLess, иначе kFalse
-int s21_is_less(s21_decimal value_1, s21_decimal value_2) {
+/// @return возвращает kTrue, если compare возвращает kLess, иначе kFalse
+int is_less(decimal value_1, decimal value_2) {
   int result = kFalse;
-  if (s21_compare(value_1, value_2) == kLess) result = kTrue;
+  if (compare(value_1, value_2) == kLess) result = kTrue;
   return result;
 }
 
 /// @brief Проверяет, является ли первый децимал меньше или равным второму
 /// @param value_1 первый децимал
 /// @param value_2 второй децимал
-/// @return возвращает kTrue, если s21_compare возвращает kLess или kEqual,
+/// @return возвращает kTrue, если compare возвращает kLess или kEqual,
 /// иначе kFalse
-int s21_is_less_or_equal(s21_decimal value_1, s21_decimal value_2) {
+int is_less_or_equal(decimal value_1, decimal value_2) {
   int result = kFalse;
-  int compare_result = s21_compare(value_1, value_2);
+  int compare_result = compare(value_1, value_2);
   if (compare_result == kLess || compare_result == kEqual) {
     result = kTrue;
   }
@@ -366,21 +366,21 @@ int s21_is_less_or_equal(s21_decimal value_1, s21_decimal value_2) {
 /// @brief Проверяет, является ли первый децимал больше второго
 /// @param value_1 первый децимал
 /// @param value_2 второй децимал
-/// @return возвращает kTrue, если s21_compare возвращает kGreater, иначе kFalse
-int s21_is_greater(s21_decimal value_1, s21_decimal value_2) {
+/// @return возвращает kTrue, если compare возвращает kGreater, иначе kFalse
+int is_greater(decimal value_1, decimal value_2) {
   int result = kFalse;
-  if (s21_compare(value_1, value_2) == kGreater) result = kTrue;
+  if (compare(value_1, value_2) == kGreater) result = kTrue;
   return result;
 }
 
 /// @brief Проверяет, является ли первый децимал больше или равным второму
 /// @param value_1 первый децимал
 /// @param value_2 второй децимал
-/// @return возвращает kTrue, если s21_compare возвращает kGreater или kEqual,
+/// @return возвращает kTrue, если compare возвращает kGreater или kEqual,
 /// иначе kFalse
-int s21_is_greater_or_equal(s21_decimal value_1, s21_decimal value_2) {
+int is_greater_or_equal(decimal value_1, decimal value_2) {
   int result = kFalse;
-  int compare_result = s21_compare(value_1, value_2);
+  int compare_result = compare(value_1, value_2);
   if (compare_result == kGreater || compare_result == kEqual) {
     result = kTrue;
   }
@@ -390,18 +390,18 @@ int s21_is_greater_or_equal(s21_decimal value_1, s21_decimal value_2) {
 /// @brief Проверяет числа на не эквивалентность
 /// @param value_1 первый децимал
 /// @param value_2 второй децимал
-/// @return возвращает kTrue, если s21_is_equal возвращает kFalse, иначе kFalse
-int s21_is_not_equal(s21_decimal value_1, s21_decimal value_2) {
-  int result = (!(s21_is_equal(value_1, value_2)));
+/// @return возвращает kTrue, если is_equal возвращает kFalse, иначе kFalse
+int is_not_equal(decimal value_1, decimal value_2) {
+  int result = (!(is_equal(value_1, value_2)));
   return result;
 }
 
 /// @brief Проверяет числа на эквивалентность
 /// @param value_1 первый децимал
 /// @param value_2 второй децимал
-/// @return возвращает kTrue, если s21_compare возвращает kEqual, иначе kFalse
-int s21_is_equal(s21_decimal value_1, s21_decimal value_2) {
+/// @return возвращает kTrue, если compare возвращает kEqual, иначе kFalse
+int is_equal(decimal value_1, decimal value_2) {
   int result = kFalse;
-  if (s21_compare(value_1, value_2) == kEqual) result = kTrue;
+  if (compare(value_1, value_2) == kEqual) result = kTrue;
   return result;
 }

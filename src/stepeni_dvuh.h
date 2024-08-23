@@ -1,5 +1,5 @@
-#ifndef SRC_S21_STEPENI_DVUH_H_
-#define SRC_S21_STEPENI_DVUH_H_
+#ifndef SRC_STEPENI_DVUH_H_
+#define SRC_STEPENI_DVUH_H_
 const char* sily_dvuh[] = {"1",
                            "2",
                            "4",
@@ -97,4 +97,4 @@ const char* sily_dvuh[] = {"1",
                            "19807040628566084398385987584",
                            "39614081257132168796771975168"};
 
-#endif  // SRC_S21_STEPENI_DVUH_H_
+#endif  // SRC_STEPENI_DVUH_H_

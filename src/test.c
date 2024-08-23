@@ -1,92 +1,92 @@
 
-#include "s21_decimal.h"
+#include "decimal.h"
 
 typedef enum { SUCCESS, CONVERTING_ERROR } e_cast_code_t;
 #include <check.h>
 
-START_TEST(s21_less_1) {
-  s21_decimal first = {{4412, 5675, 1254, 0b10000000000000000000000000000000}};
-  s21_decimal second = {{4412, 5675, 1254, 0b00000000000000000000000000000000}};
-  ck_assert_int_eq(s21_is_less(first, second), 1);
+START_TEST(less_1) {
+  decimal first = {{4412, 5675, 1254, 0b10000000000000000000000000000000}};
+  decimal second = {{4412, 5675, 1254, 0b00000000000000000000000000000000}};
+  ck_assert_int_eq(is_less(first, second), 1);
 }
 END_TEST
 
-START_TEST(s21_less_2) {
-  s21_decimal first = {{4412, 5675, 1254, 0b00000000000000000000000000000000}};
-  s21_decimal second = {{4412, 5675, 1254, 0b10000000000000000000000000000000}};
-  ck_assert_int_eq(s21_is_less(first, second), 0);
+START_TEST(less_2) {
+  decimal first = {{4412, 5675, 1254, 0b00000000000000000000000000000000}};
+  decimal second = {{4412, 5675, 1254, 0b10000000000000000000000000000000}};
+  ck_assert_int_eq(is_less(first, second), 0);
 }
 END_TEST
 
-START_TEST(s21_less_3_zero) {
-  s21_decimal first = {{0, 0, 0, 0b00000000000000000000000000000000}};
-  s21_decimal second = {{0, 0, 0, 0b10000000000000000000000000000000}};
-  ck_assert_int_eq(s21_is_less(first, second), 0);
+START_TEST(less_3_zero) {
+  decimal first = {{0, 0, 0, 0b00000000000000000000000000000000}};
+  decimal second = {{0, 0, 0, 0b10000000000000000000000000000000}};
+  ck_assert_int_eq(is_less(first, second), 0);
 }
 END_TEST
 
-START_TEST(s21_less_4_zero) {
-  s21_decimal first = {{0, 0, 0, 0b10000000000000000000000000000000}};
-  s21_decimal second = {{0, 0, 0, 0b00000000000000000000000000000000}};
-  ck_assert_int_eq(s21_is_less(first, second), 0);
+START_TEST(less_4_zero) {
+  decimal first = {{0, 0, 0, 0b10000000000000000000000000000000}};
+  decimal second = {{0, 0, 0, 0b00000000000000000000000000000000}};
+  ck_assert_int_eq(is_less(first, second), 0);
 }
 END_TEST
 
-START_TEST(s21_less_5_len_int_part) {
-  s21_decimal first = {{0, 0, 0, 0b10000000000000000000000000000000}};
-  s21_decimal second = {{0, 0, 0, 0b00000000000000000000000000000000}};
-  ck_assert_int_eq(s21_is_less(first, second), 0);
+START_TEST(less_5_len_int_part) {
+  decimal first = {{0, 0, 0, 0b10000000000000000000000000000000}};
+  decimal second = {{0, 0, 0, 0b00000000000000000000000000000000}};
+  ck_assert_int_eq(is_less(first, second), 0);
 }
 END_TEST
 
-START_TEST(s21_less_6_len_int_part_positive) {
-  s21_decimal first = {{4412, 5675, 1254, 0b00000011000000000000000000000000}};
-  s21_decimal second = {{4412, 5675, 1254, 0b00000101000000000000000000000000}};
-  ck_assert_int_eq(s21_is_less(first, second), 0);
+START_TEST(less_6_len_int_part_positive) {
+  decimal first = {{4412, 5675, 1254, 0b00000011000000000000000000000000}};
+  decimal second = {{4412, 5675, 1254, 0b00000101000000000000000000000000}};
+  ck_assert_int_eq(is_less(first, second), 0);
 }
 END_TEST
 
-START_TEST(s21_less_7_len_int_part_negative) {
-  s21_decimal first = {{4422, 5515, 9254, 0b10000000000000110000000000000000}};
-  s21_decimal second = {{6312, 5616, 1844, 0b10000000000001010000000000000000}};
-  ck_assert_int_eq(s21_is_less(first, second), 1);
+START_TEST(less_7_len_int_part_negative) {
+  decimal first = {{4422, 5515, 9254, 0b10000000000000110000000000000000}};
+  decimal second = {{6312, 5616, 1844, 0b10000000000001010000000000000000}};
+  ck_assert_int_eq(is_less(first, second), 1);
 }
 END_TEST
 
-START_TEST(s21_less_8_value_int_part_positive) {
-  s21_decimal first = {{4412, 5775, 1254, 0b00000000000001110000000000000000}};
-  s21_decimal second = {{4412, 5675, 1254, 0b00000000000001110000000000000000}};
-  ck_assert_int_eq(s21_is_less(first, second), 0);
+START_TEST(less_8_value_int_part_positive) {
+  decimal first = {{4412, 5775, 1254, 0b00000000000001110000000000000000}};
+  decimal second = {{4412, 5675, 1254, 0b00000000000001110000000000000000}};
+  ck_assert_int_eq(is_less(first, second), 0);
 }
 END_TEST
 
-START_TEST(s21_less_9_value_fract_part_positive) {
-  s21_decimal first = {{4412, 5775, 1254, 0b00000000000010000000000000000000}};
-  s21_decimal second = {{4412, 5775, 1254, 0b00000000000001110000000000000000}};
-  ck_assert_int_eq(s21_is_less(first, second), 1);
+START_TEST(less_9_value_fract_part_positive) {
+  decimal first = {{4412, 5775, 1254, 0b00000000000010000000000000000000}};
+  decimal second = {{4412, 5775, 1254, 0b00000000000001110000000000000000}};
+  ck_assert_int_eq(is_less(first, second), 1);
 }
 END_TEST
 
-START_TEST(s21_less_10_max_int_positive) {
-  s21_decimal first = {
+START_TEST(less_10_max_int_positive) {
+  decimal first = {
       {2147483646, 2147483647, 2147483647, 0b00000000000001110000000000000000}};
-  s21_decimal second = {
+  decimal second = {
       {2147483647, 2147483647, 2147483647, 0b00000000000001110000000000000000}};
-  ck_assert_int_eq(s21_is_less(first, second), 1);
+  ck_assert_int_eq(is_less(first, second), 1);
 }
 END_TEST
 
-START_TEST(s21_less_11_max_int_negative) {
-  s21_decimal first = {
+START_TEST(less_11_max_int_negative) {
+  decimal first = {
       {2147483647, 2147483647, 2147483647, 0b10000000000001110000000000000000}};
-  s21_decimal second = {
+  decimal second = {
       {2147483646, 2147483647, 2147483647, 0b10000000000001110000000000000000}};
-  ck_assert_int_eq(s21_is_less(first, second), 1);
+  ck_assert_int_eq(is_less(first, second), 1);
 }
 END_TEST
 
-START_TEST(s21_less_12) {
-  s21_decimal src1, src2;
+START_TEST(less_12) {
+  decimal src1, src2;
   int origin;
   // src1 = 2;
   // src2 = 2;
@@ -98,14 +98,14 @@ START_TEST(s21_less_12) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_13) {
-  s21_decimal src1, src2;
+START_TEST(less_13) {
+  decimal src1, src2;
   int origin;
   // src1 = 2;
   // src2 = 2.00;
@@ -117,14 +117,14 @@ START_TEST(s21_less_13) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000100000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_14) {
-  s21_decimal src1, src2;
+START_TEST(less_14) {
+  decimal src1, src2;
   int origin;
   // src1 = 2;
   // src2 = 3;
@@ -136,14 +136,14 @@ START_TEST(s21_less_14) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_15) {
-  s21_decimal src1, src2;
+START_TEST(less_15) {
+  decimal src1, src2;
   int origin;
   // src1 = 0.000000000000000000000000000;
   // src2 = 0;
@@ -155,14 +155,14 @@ START_TEST(s21_less_15) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_16) {
-  s21_decimal src1, src2;
+START_TEST(less_16) {
+  decimal src1, src2;
   int origin;
   // src1 = -3;
   // src2 = 3;
@@ -174,14 +174,14 @@ START_TEST(s21_less_16) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_17) {
-  s21_decimal src1, src2;
+START_TEST(less_17) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.222212;
   // src2 = 2.222212;
@@ -193,14 +193,14 @@ START_TEST(s21_less_17) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000001100000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_18) {
-  s21_decimal src1, src2;
+START_TEST(less_18) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.22221200000001000;
   // src2 = 2.222212;
@@ -212,14 +212,14 @@ START_TEST(s21_less_18) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000001100000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_19) {
-  s21_decimal src1, src2;
+START_TEST(less_19) {
+  decimal src1, src2;
   int origin;
   // src1 = 3.2222121;
   // src2 = 3.222212;
@@ -231,14 +231,14 @@ START_TEST(s21_less_19) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000001100000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_20) {
-  s21_decimal src1, src2;
+START_TEST(less_20) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.222212;
   // src2 = -2.2222120002;
@@ -250,14 +250,14 @@ START_TEST(s21_less_20) {
   src2.bits[1] = 0b00000000000000000000000000000101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000010100000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_21) {
-  s21_decimal src1, src2;
+START_TEST(less_21) {
+  decimal src1, src2;
   int origin;
   // src1 = -364748;
   // src2 = 1;
@@ -269,14 +269,14 @@ START_TEST(s21_less_21) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_22) {
-  s21_decimal src1, src2;
+START_TEST(less_22) {
+  decimal src1, src2;
   int origin;
   // src1 = 987456543210.0;
   // src2 = 98745654321.0;
@@ -288,14 +288,14 @@ START_TEST(s21_less_22) {
   src2.bits[1] = 0b00000000000000000000000011100101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000010000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_23) {
-  s21_decimal src1, src2;
+START_TEST(less_23) {
+  decimal src1, src2;
   int origin;
   // src1 = -9878798789.5867800;
   // src2 = -9878798789.58678;
@@ -307,14 +307,14 @@ START_TEST(s21_less_23) {
   src2.bits[1] = 0b00000000000000111000001001111000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000001010000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_24) {
-  s21_decimal src1, src2;
+START_TEST(less_24) {
+  decimal src1, src2;
   int origin;
   // src1 = 9999999999999999999;
   // src2 = 1;
@@ -326,14 +326,14 @@ START_TEST(s21_less_24) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_25) {
-  s21_decimal src1, src2;
+START_TEST(less_25) {
+  decimal src1, src2;
   int origin;
   // src1 = 18446744073709551615;
   // src2 = 18446744073709551615.000000000;
@@ -345,14 +345,14 @@ START_TEST(s21_less_25) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b00111011100110101100100111111111;
   src2.bits[3] = 0b00000000000010010000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_26) {
-  s21_decimal src1, src2;
+START_TEST(less_26) {
+  decimal src1, src2;
   int origin;
   // src1 = 18446744073709551615.0;
   // src2 = 965453154;
@@ -364,14 +364,14 @@ START_TEST(s21_less_26) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_27) {
-  s21_decimal src1, src2;
+START_TEST(less_27) {
+  decimal src1, src2;
   int origin;
   // src1 = -545454512454545.35265454545645;
   // src2 = -545454512454545.35265454545645;
@@ -383,14 +383,14 @@ START_TEST(s21_less_27) {
   src2.bits[1] = 0b11111001111010000010010110101101;
   src2.bits[2] = 0b10110000001111101111000010010100;
   src2.bits[3] = 0b10000000000011100000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_28) {
-  s21_decimal src1, src2;
+START_TEST(less_28) {
+  decimal src1, src2;
   int origin;
   // src1 = -545454512454545.35265454545645;
   // src2 = -5.352654545456454545645464;
@@ -402,14 +402,14 @@ START_TEST(s21_less_28) {
   src2.bits[1] = 0b11111011111111011000100101101101;
   src2.bits[2] = 0b00000000000001000110110101110111;
   src2.bits[3] = 0b10000000000110000000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_29) {
-  s21_decimal src1, src2;
+START_TEST(less_29) {
+  decimal src1, src2;
   int origin;
   // src1 = 7961327845421.879754123131254;
   // src2 = 7961327.845421879754123131254;
@@ -421,14 +421,14 @@ START_TEST(s21_less_29) {
   src2.bits[1] = 0b01001011001101011010000111011001;
   src2.bits[2] = 0b00011001101110010111010010111111;
   src2.bits[3] = 0b00000000000101010000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_30) {
-  s21_decimal src1, src2;
+START_TEST(less_30) {
+  decimal src1, src2;
   int origin;
   // src1 = 12345677.987654345678987654346;
   // src2 = 12345677.987654000000000000000;
@@ -440,14 +440,14 @@ START_TEST(s21_less_30) {
   src2.bits[1] = 0b11000000010001001001101110001101;
   src2.bits[2] = 0b00100111111001000001101100000000;
   src2.bits[3] = 0b00000000000101010000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_31) {
-  s21_decimal src1, src2;
+START_TEST(less_31) {
+  decimal src1, src2;
   int origin;
   // src1 = -12345677.987654345678987654346;
   // src2 = 87654323456.9876545678987653;
@@ -459,14 +459,14 @@ START_TEST(s21_less_31) {
   src2.bits[1] = 0b11110101101111000110111111000000;
   src2.bits[2] = 0b00000010110101010000111100111111;
   src2.bits[3] = 0b00000000000100000000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_32) {
-  s21_decimal src1, src2;
+START_TEST(less_32) {
+  decimal src1, src2;
   int origin;
   // src1 = -87654323456.98765456789876530;
   // src2 = -87654323456.98765456789876531;
@@ -478,14 +478,14 @@ START_TEST(s21_less_32) {
   src2.bits[1] = 0b10011001010111000101110110000000;
   src2.bits[2] = 0b00011100010100101001100001111111;
   src2.bits[3] = 0b10000000000100010000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_33) {
-  s21_decimal src1, src2;
+START_TEST(less_33) {
+  decimal src1, src2;
   int origin;
   // src1 = -87654323456.98765456789876530;
   // src2 = -87654323456.98765456789876530;
@@ -497,14 +497,14 @@ START_TEST(s21_less_33) {
   src2.bits[1] = 0b10011001010111000101110110000000;
   src2.bits[2] = 0b00011100010100101001100001111111;
   src2.bits[3] = 0b10000000000100010000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_34) {
-  s21_decimal src1, src2;
+START_TEST(less_34) {
+  decimal src1, src2;
   int origin;
   // src1 = 0.0;
   // src2 = 0.69;
@@ -516,14 +516,14 @@ START_TEST(s21_less_34) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000100000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_35) {
-  s21_decimal src1, src2;
+START_TEST(less_35) {
+  decimal src1, src2;
   int origin;
   // src1 = -69.1234567;
   // src2 = -69.12345670000000;
@@ -535,14 +535,14 @@ START_TEST(s21_less_35) {
   src2.bits[1] = 0b00000000000110001000111010111101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000011100000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_36) {
-  s21_decimal src1, src2;
+START_TEST(less_36) {
+  decimal src1, src2;
   int origin;
   // src1 = 13436577854.000000000000;
   // src2 = 13436577854;
@@ -554,14 +554,14 @@ START_TEST(s21_less_36) {
   src2.bits[1] = 0b00000000000000000000000000000011;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_37) {
-  s21_decimal src1, src2;
+START_TEST(less_37) {
+  decimal src1, src2;
   int origin;
   // src1 = 79228162514264337593543950335;
   // src2 = 79228162514264337593543950335;
@@ -573,14 +573,14 @@ START_TEST(s21_less_37) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b11111111111111111111111111111111;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_38) {
-  s21_decimal src1, src2;
+START_TEST(less_38) {
+  decimal src1, src2;
   int origin;
   // src1 = 79228162514264337593543950335;
   // src2 = -79228162514264337593543950335;
@@ -592,14 +592,14 @@ START_TEST(s21_less_38) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b11111111111111111111111111111111;
   src2.bits[3] = 0b10000000000000000000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_39) {
-  s21_decimal src1, src2;
+START_TEST(less_39) {
+  decimal src1, src2;
   int origin;
   // src1 = 665464545;
   // src2 = 8798232189789785;
@@ -611,14 +611,14 @@ START_TEST(s21_less_39) {
   src2.bits[1] = 0b00000000000111110100000111110010;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_40) {
-  s21_decimal src1, src2;
+START_TEST(less_40) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.7986531268974139743;
   // src2 = 2.7986531268974139743;
@@ -630,14 +630,14 @@ START_TEST(s21_less_40) {
   src2.bits[1] = 0b10000100011001000010000111101000;
   src2.bits[2] = 0b00000000000000000000000000000001;
   src2.bits[3] = 0b00000000000100110000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_41) {
-  s21_decimal src1, src2;
+START_TEST(less_41) {
+  decimal src1, src2;
   int origin;
   // src1 = -2156878451.8547640000000000;
   // src2 = -2156878451.854764;
@@ -649,14 +649,14 @@ START_TEST(s21_less_41) {
   src2.bits[1] = 0b00000000000001111010100110101011;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000001100000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_42) {
-  s21_decimal src1, src2;
+START_TEST(less_42) {
+  decimal src1, src2;
   int origin;
   // src1 = 0.5456465465486476846545465485;
   // src2 = 5.4564654654864768465454654846;
@@ -668,14 +668,14 @@ START_TEST(s21_less_42) {
   src2.bits[1] = 0b11100010111000110111110100101010;
   src2.bits[2] = 0b10110000010011101101001100001111;
   src2.bits[3] = 0b00000000000111000000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_43) {
-  s21_decimal src1, src2;
+START_TEST(less_43) {
+  decimal src1, src2;
   int origin;
   // src1 = -7.7545545454546589781677545545;
   // src2 = -7.7545545454546589781677545545;
@@ -687,14 +687,14 @@ START_TEST(s21_less_43) {
   src2.bits[1] = 0b01101011011011011010110110010010;
   src2.bits[2] = 0b11111010100100000010101111111010;
   src2.bits[3] = 0b10000000000111000000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_44) {
-  s21_decimal src1, src2;
+START_TEST(less_44) {
+  decimal src1, src2;
   int origin;
   // src1 = -79228162514264337593543950335;
   // src2 = -792281625.14264337593543950335;
@@ -706,14 +706,14 @@ START_TEST(s21_less_44) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b11111111111111111111111111111111;
   src2.bits[3] = 0b10000000000101000000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_45) {
-  s21_decimal src1, src2;
+START_TEST(less_45) {
+  decimal src1, src2;
   int origin;
   // src1 = 675432788976.5424354657687;
   // src2 = 67543278.89765424354657687;
@@ -725,14 +725,14 @@ START_TEST(s21_less_45) {
   src2.bits[1] = 0b11011001001111010001001011000110;
   src2.bits[2] = 0b00000000000001011001011001001000;
   src2.bits[3] = 0b00000000000100010000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_46) {
-  s21_decimal src1, src2;
+START_TEST(less_46) {
+  decimal src1, src2;
   int origin;
   // src1 = -579895323215489956.67897455465;
   // src2 = -579895323215489956.67897455465;
@@ -744,14 +744,14 @@ START_TEST(s21_less_46) {
   src2.bits[1] = 0b00111000110110101110001010110100;
   src2.bits[2] = 0b10111011010111111101000100011110;
   src2.bits[3] = 0b10000000000010110000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_47) {
-  s21_decimal src1, src2;
+START_TEST(less_47) {
+  decimal src1, src2;
   int origin;
   // src1 = 18446744073709551615.0;
   // src2 = 1844674407370955161.50;
@@ -763,14 +763,14 @@ START_TEST(s21_less_47) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b00000000000000000000000000001001;
   src2.bits[3] = 0b00000000000000100000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_48) {
-  s21_decimal src1, src2;
+START_TEST(less_48) {
+  decimal src1, src2;
   int origin;
   // src1 = 44073709551615.0;
   // src2 = 44073709551615.00000000;
@@ -782,14 +782,14 @@ START_TEST(s21_less_48) {
   src2.bits[1] = 0b11101100100011110001010001110111;
   src2.bits[2] = 0b00000000000000000000000011101110;
   src2.bits[3] = 0b00000000000010000000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_49) {
-  s21_decimal src1, src2;
+START_TEST(less_49) {
+  decimal src1, src2;
   int origin;
   // src1 = 228162514264337.5935439503;
   // src2 = 228162514264337.59354395030000;
@@ -801,14 +801,14 @@ START_TEST(s21_less_49) {
   src2.bits[1] = 0b00111001110010101010100001111000;
   src2.bits[2] = 0b01001001101110010010100100101100;
   src2.bits[3] = 0b00000000000011100000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_50) {
-  s21_decimal src1, src2;
+START_TEST(less_50) {
+  decimal src1, src2;
   int origin;
   // src1 = -754554545454658.97816770;
   // src2 = -754554545454658.9781677;
@@ -820,14 +820,14 @@ START_TEST(s21_less_50) {
   src2.bits[1] = 0b00001011011110101000110011100101;
   src2.bits[2] = 0b00000000000000000000000110011001;
   src2.bits[3] = 0b10000000000001110000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_51) {
-  s21_decimal src1, src2;
+START_TEST(less_51) {
+  decimal src1, src2;
   int origin;
   // src1 = -2.514264337593543;
   // src2 = -2.514264337593542;
@@ -839,14 +839,14 @@ START_TEST(s21_less_51) {
   src2.bits[1] = 0b00000000000010001110111010110101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000011110000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_52) {
-  s21_decimal src1, src2;
+START_TEST(less_52) {
+  decimal src1, src2;
   int origin;
   // src1 = -79228162514264337593543950335;
   // src2 = 0;
@@ -858,122 +858,115 @@ START_TEST(s21_less_52) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less(src1, src2);
+  int result = is_less(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_1) {
-  s21_decimal first = {{4412, 5675, 1254, 0b00000100000000000010000000000000}};
-  s21_decimal second = {{4412, 5675, 1254, 0b00000100000000000010000000000000}};
-  ck_assert_int_eq(s21_is_equal(first, second), 1);
+START_TEST(equal_1) {
+  decimal first = {{4412, 5675, 1254, 0b00000100000000000010000000000000}};
+  decimal second = {{4412, 5675, 1254, 0b00000100000000000010000000000000}};
+  ck_assert_int_eq(is_equal(first, second), 1);
 }
 END_TEST
 
-START_TEST(s21_equal_2) {
-  s21_decimal first = {{4412, 5675, 1254, 0b10000100000000000010000000000000}};
-  s21_decimal second = {{4412, 5675, 1254, 0b10000100000000000010000000000000}};
-  ck_assert_int_eq(s21_is_equal(first, second), 1);
+START_TEST(equal_2) {
+  decimal first = {{4412, 5675, 1254, 0b10000100000000000010000000000000}};
+  decimal second = {{4412, 5675, 1254, 0b10000100000000000010000000000000}};
+  ck_assert_int_eq(is_equal(first, second), 1);
 }
 END_TEST
 
-START_TEST(s21_equal_3_fraction) {
-  s21_decimal first = {{4412, 5675, 1254, 0b10110010000000001110000111000011}};
-  s21_decimal second = {{4412, 5675, 1254, 0b11001001000000000010000111111110}};
-  ck_assert_int_eq(s21_is_equal(first, second), 1);
+START_TEST(equal_3_fraction) {
+  decimal first = {{4412, 5675, 1254, 0b10110010000000001110000111000011}};
+  decimal second = {{4412, 5675, 1254, 0b11001001000000000010000111111110}};
+  ck_assert_int_eq(is_equal(first, second), 1);
 }
 END_TEST
 
-START_TEST(s21_equal_4_sign) {
-  s21_decimal first = {{4412, 5675, 1254, 0b10110100111111110010000000000011}};
-  s21_decimal second = {{4412, 5675, 1254, 0b01110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_equal(first, second), 0);
+START_TEST(equal_4_sign) {
+  decimal first = {{4412, 5675, 1254, 0b10110100111111110010000000000011}};
+  decimal second = {{4412, 5675, 1254, 0b01110100000000000010000111111110}};
+  ck_assert_int_eq(is_equal(first, second), 0);
 }
 END_TEST
 
-START_TEST(s21_equal_5_sign) {
-  s21_decimal first = {{4412, 5675, 1254, 0b00110100111111110010000000000011}};
-  s21_decimal second = {{4412, 5675, 1254, 0b11110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_equal(first, second), 0);
+START_TEST(equal_5_sign) {
+  decimal first = {{4412, 5675, 1254, 0b00110100111111110010000000000011}};
+  decimal second = {{4412, 5675, 1254, 0b11110100000000000010000111111110}};
+  ck_assert_int_eq(is_equal(first, second), 0);
 }
 END_TEST
 
-START_TEST(s21_equal_6) {
-  s21_decimal first = {{4412, 5675, 1154, 0b10110100111111110010000000000011}};
-  s21_decimal second = {{4412, 5675, 1254, 0b11110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_equal(first, second), 0);
+START_TEST(equal_6) {
+  decimal first = {{4412, 5675, 1154, 0b10110100111111110010000000000011}};
+  decimal second = {{4412, 5675, 1254, 0b11110100000000000010000111111110}};
+  ck_assert_int_eq(is_equal(first, second), 0);
 }
 END_TEST
 
-START_TEST(s21_equal_7) {
-  s21_decimal first = {{4412, 5675, 1254, 0b10110100111111110010000000000011}};
-  s21_decimal second = {{4412, 5675, 1244, 0b11110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_equal(first, second), 0);
+START_TEST(equal_7) {
+  decimal first = {{4412, 5675, 1254, 0b10110100111111110010000000000011}};
+  decimal second = {{4412, 5675, 1244, 0b11110100000000000010000111111110}};
+  ck_assert_int_eq(is_equal(first, second), 0);
 }
 END_TEST
 
-START_TEST(s21_equal_8) {
-  s21_decimal first = {{4412, 5675, 1254, 0b10110100111111110010000000000011}};
-  s21_decimal second = {
-      {4412, 5675, 12541, 0b11110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_equal(first, second), 0);
+START_TEST(equal_8) {
+  decimal first = {{4412, 5675, 1254, 0b10110100111111110010000000000011}};
+  decimal second = {{4412, 5675, 12541, 0b11110100000000000010000111111110}};
+  ck_assert_int_eq(is_equal(first, second), 0);
 }
 END_TEST
 
 // TEST OBOSSAT1:
-// START_TEST(s21_equal_9_ss) {
-//   s21_decimal first = {
+// START_TEST(equal_9_ss) {
+//   decimal first = {
 //       {0x4A1D, 05675, 1254, 0b10110100111111110010000000000011}};
-//   s21_decimal second = {
+//   decimal second = {
 //       {0x4A1D, 05675, 1254, 0b10110100111111110010000000000011}};
-//   ck_assert_int_eq(s21_is_equal(first, second), 1);
+//   ck_assert_int_eq(is_equal(first, second), 1);
 // }
 // END_TEST
 
-START_TEST(s21_equal_10) {
-  s21_decimal first = {{412, 5675, 1254, 0b10110100111111110010000000000011}};
-  s21_decimal second = {{4412, 5675, 1254, 0b11110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_equal(first, second), 0);
+START_TEST(equal_10) {
+  decimal first = {{412, 5675, 1254, 0b10110100111111110010000000000011}};
+  decimal second = {{4412, 5675, 1254, 0b11110100000000000010000111111110}};
+  ck_assert_int_eq(is_equal(first, second), 0);
 }
 END_TEST
 
-START_TEST(s21_equal_11_zero) {
-  s21_decimal first = {{0, 0, 0, 0b11110100000000000010000111111110}};
-  s21_decimal second = {{0, 0, 0, 0b01110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_equal(first, second), 1);
+START_TEST(equal_11_zero) {
+  decimal first = {{0, 0, 0, 0b11110100000000000010000111111110}};
+  decimal second = {{0, 0, 0, 0b01110100000000000010000111111110}};
+  ck_assert_int_eq(is_equal(first, second), 1);
 }
 END_TEST
 
-START_TEST(s21_equal_12_value) {
-  s21_decimal first = {
-      {1564, 31452, 6109410, 0b11110100000000000010000111111110}};
-  s21_decimal second = {
-      {1564, 31452, 610941, 0b11110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_equal(first, second), 0);
+START_TEST(equal_12_value) {
+  decimal first = {{1564, 31452, 6109410, 0b11110100000000000010000111111110}};
+  decimal second = {{1564, 31452, 610941, 0b11110100000000000010000111111110}};
+  ck_assert_int_eq(is_equal(first, second), 0);
 }
 END_TEST
 
-START_TEST(s21_equal_13_value) {
-  s21_decimal first = {
-      {1564, 31452, 610941, 0b11110100000000000010000111111110}};
-  s21_decimal second = {
-      {1564, 3142, 610941, 0b11110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_equal(first, second), 0);
+START_TEST(equal_13_value) {
+  decimal first = {{1564, 31452, 610941, 0b11110100000000000010000111111110}};
+  decimal second = {{1564, 3142, 610941, 0b11110100000000000010000111111110}};
+  ck_assert_int_eq(is_equal(first, second), 0);
 }
 END_TEST
 
-START_TEST(s21_equal_14_value) {
-  s21_decimal first = {
-      {15614, 31452, 610941, 0b11110100000000000010000111111110}};
-  s21_decimal second = {
-      {1564, 31452, 610941, 0b11110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_equal(first, second), 0);
+START_TEST(equal_14_value) {
+  decimal first = {{15614, 31452, 610941, 0b11110100000000000010000111111110}};
+  decimal second = {{1564, 31452, 610941, 0b11110100000000000010000111111110}};
+  ck_assert_int_eq(is_equal(first, second), 0);
 }
 END_TEST
 
-START_TEST(s21_equal_15) {
-  s21_decimal src1, src2;
+START_TEST(equal_15) {
+  decimal src1, src2;
   int origin;
   // src1 = 2;
   // src2 = 2;
@@ -985,14 +978,14 @@ START_TEST(s21_equal_15) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_16) {
-  s21_decimal src1, src2;
+START_TEST(equal_16) {
+  decimal src1, src2;
   int origin;
   // src1 = 2;
   // src2 = 2.00;
@@ -1004,14 +997,14 @@ START_TEST(s21_equal_16) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000100000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_17) {
-  s21_decimal src1, src2;
+START_TEST(equal_17) {
+  decimal src1, src2;
   int origin;
   // src1 = 2;
   // src2 = 3;
@@ -1023,14 +1016,14 @@ START_TEST(s21_equal_17) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_18) {
-  s21_decimal src1, src2;
+START_TEST(equal_18) {
+  decimal src1, src2;
   int origin;
   // src1 = 0.000000000000000000000000000;
   // src2 = 0;
@@ -1042,14 +1035,14 @@ START_TEST(s21_equal_18) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_19) {
-  s21_decimal src1, src2;
+START_TEST(equal_19) {
+  decimal src1, src2;
   int origin;
   // src1 = -3;
   // src2 = 3;
@@ -1061,14 +1054,14 @@ START_TEST(s21_equal_19) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_20) {
-  s21_decimal src1, src2;
+START_TEST(equal_20) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.222212;
   // src2 = 2.222212;
@@ -1080,14 +1073,14 @@ START_TEST(s21_equal_20) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000001100000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_21) {
-  s21_decimal src1, src2;
+START_TEST(equal_21) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.22221200000000000;
   // src2 = 2.222212;
@@ -1099,14 +1092,14 @@ START_TEST(s21_equal_21) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000001100000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_22) {
-  s21_decimal src1, src2;
+START_TEST(equal_22) {
+  decimal src1, src2;
   int origin;
   // src1 = 3.2222121;
   // src2 = 3.222212;
@@ -1118,14 +1111,14 @@ START_TEST(s21_equal_22) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000001100000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_23) {
-  s21_decimal src1, src2;
+START_TEST(equal_23) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.222212;
   // src2 = -2.222212;
@@ -1137,14 +1130,14 @@ START_TEST(s21_equal_23) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000001100000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_24) {
-  s21_decimal src1, src2;
+START_TEST(equal_24) {
+  decimal src1, src2;
   int origin;
   // src1 = -364748;
   // src2 = 1;
@@ -1156,14 +1149,14 @@ START_TEST(s21_equal_24) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_25) {
-  s21_decimal src1, src2;
+START_TEST(equal_25) {
+  decimal src1, src2;
   int origin;
   // src1 = 987456543210.0;
   // src2 = 98745654321.0;
@@ -1175,14 +1168,14 @@ START_TEST(s21_equal_25) {
   src2.bits[1] = 0b00000000000000000000000011100101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000010000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_26) {
-  s21_decimal src1, src2;
+START_TEST(equal_26) {
+  decimal src1, src2;
   int origin;
   // src1 = -9878798789.5867800;
   // src2 = -9878798789.58678;
@@ -1194,14 +1187,14 @@ START_TEST(s21_equal_26) {
   src2.bits[1] = 0b00000000000000111000001001111000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000001010000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_27) {
-  s21_decimal src1, src2;
+START_TEST(equal_27) {
+  decimal src1, src2;
   int origin;
   // src1 = 9999999999999999999;
   // src2 = 1;
@@ -1213,14 +1206,14 @@ START_TEST(s21_equal_27) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_28) {
-  s21_decimal src1, src2;
+START_TEST(equal_28) {
+  decimal src1, src2;
   int origin;
   // src1 = 18446744073709551615;
   // src2 = 18446744073709551615.000000000;
@@ -1232,14 +1225,14 @@ START_TEST(s21_equal_28) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b00111011100110101100100111111111;
   src2.bits[3] = 0b00000000000010010000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_29) {
-  s21_decimal src1, src2;
+START_TEST(equal_29) {
+  decimal src1, src2;
   int origin;
   // src1 = 18446744073709551615.0;
   // src2 = 965453154;
@@ -1251,14 +1244,14 @@ START_TEST(s21_equal_29) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_30) {
-  s21_decimal src1, src2;
+START_TEST(equal_30) {
+  decimal src1, src2;
   int origin;
   // src1 = -545454512454545.35265454545645;
   // src2 = -545454512454545.35265454545645;
@@ -1270,14 +1263,14 @@ START_TEST(s21_equal_30) {
   src2.bits[1] = 0b11111001111010000010010110101101;
   src2.bits[2] = 0b10110000001111101111000010010100;
   src2.bits[3] = 0b10000000000011100000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_31) {
-  s21_decimal src1, src2;
+START_TEST(equal_31) {
+  decimal src1, src2;
   int origin;
   // src1 = -545454512454545.35265454545645;
   // src2 = -5.352654545456454545645464;
@@ -1289,14 +1282,14 @@ START_TEST(s21_equal_31) {
   src2.bits[1] = 0b11111011111111011000100101101101;
   src2.bits[2] = 0b00000000000001000110110101110111;
   src2.bits[3] = 0b10000000000110000000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_32) {
-  s21_decimal src1, src2;
+START_TEST(equal_32) {
+  decimal src1, src2;
   int origin;
   // src1 = 7961327845421.879754123131254;
   // src2 = 7961327.845421879754123131254;
@@ -1308,14 +1301,14 @@ START_TEST(s21_equal_32) {
   src2.bits[1] = 0b01001011001101011010000111011001;
   src2.bits[2] = 0b00011001101110010111010010111111;
   src2.bits[3] = 0b00000000000101010000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_33) {
-  s21_decimal src1, src2;
+START_TEST(equal_33) {
+  decimal src1, src2;
   int origin;
   // src1 = 12345677.987654345678987654346;
   // src2 = 12345677.987654000000000000000;
@@ -1327,14 +1320,14 @@ START_TEST(s21_equal_33) {
   src2.bits[1] = 0b11000000010001001001101110001101;
   src2.bits[2] = 0b00100111111001000001101100000000;
   src2.bits[3] = 0b00000000000101010000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_34) {
-  s21_decimal src1, src2;
+START_TEST(equal_34) {
+  decimal src1, src2;
   int origin;
   // src1 = -12345677.987654345678987654346;
   // src2 = 87654323456.9876545678987653;
@@ -1346,14 +1339,14 @@ START_TEST(s21_equal_34) {
   src2.bits[1] = 0b11110101101111000110111111000000;
   src2.bits[2] = 0b00000010110101010000111100111111;
   src2.bits[3] = 0b00000000000100000000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_35) {
-  s21_decimal src1, src2;
+START_TEST(equal_35) {
+  decimal src1, src2;
   int origin;
   // src1 = -87654323456.98765456789876530;
   // src2 = -87654323456.98765456789876531;
@@ -1365,14 +1358,14 @@ START_TEST(s21_equal_35) {
   src2.bits[1] = 0b10011001010111000101110110000000;
   src2.bits[2] = 0b00011100010100101001100001111111;
   src2.bits[3] = 0b10000000000100010000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_36) {
-  s21_decimal src1, src2;
+START_TEST(equal_36) {
+  decimal src1, src2;
   int origin;
   // src1 = -87654323456.98765456789876530;
   // src2 = -87654323456.98765456789876530;
@@ -1384,14 +1377,14 @@ START_TEST(s21_equal_36) {
   src2.bits[1] = 0b10011001010111000101110110000000;
   src2.bits[2] = 0b00011100010100101001100001111111;
   src2.bits[3] = 0b10000000000100010000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_37) {
-  s21_decimal src1, src2;
+START_TEST(equal_37) {
+  decimal src1, src2;
   int origin;
   // src1 = 0.0;
   // src2 = 0.69;
@@ -1403,14 +1396,14 @@ START_TEST(s21_equal_37) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000100000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_38) {
-  s21_decimal src1, src2;
+START_TEST(equal_38) {
+  decimal src1, src2;
   int origin;
   // src1 = -69.1234567;
   // src2 = -69.12345670000000;
@@ -1422,14 +1415,14 @@ START_TEST(s21_equal_38) {
   src2.bits[1] = 0b00000000000110001000111010111101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000011100000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_39) {
-  s21_decimal src1, src2;
+START_TEST(equal_39) {
+  decimal src1, src2;
   int origin;
   // src1 = 13436577854.000000000000;
   // src2 = 13436577854;
@@ -1441,14 +1434,14 @@ START_TEST(s21_equal_39) {
   src2.bits[1] = 0b00000000000000000000000000000011;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_40) {
-  s21_decimal src1, src2;
+START_TEST(equal_40) {
+  decimal src1, src2;
   int origin;
   // src1 = 79228162514264337593543950335;
   // src2 = 79228162514264337593543950335;
@@ -1460,14 +1453,14 @@ START_TEST(s21_equal_40) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b11111111111111111111111111111111;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_41) {
-  s21_decimal src1, src2;
+START_TEST(equal_41) {
+  decimal src1, src2;
   int origin;
   // src1 = 79228162514264337593543950335;
   // src2 = -79228162514264337593543950335;
@@ -1479,14 +1472,14 @@ START_TEST(s21_equal_41) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b11111111111111111111111111111111;
   src2.bits[3] = 0b10000000000000000000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_42) {
-  s21_decimal src1, src2;
+START_TEST(equal_42) {
+  decimal src1, src2;
   int origin;
   // src1 = 665464545;
   // src2 = 8798232189789785;
@@ -1498,14 +1491,14 @@ START_TEST(s21_equal_42) {
   src2.bits[1] = 0b00000000000111110100000111110010;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_43) {
-  s21_decimal src1, src2;
+START_TEST(equal_43) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.7986531268974139743;
   // src2 = 2.7986531268974139743;
@@ -1517,14 +1510,14 @@ START_TEST(s21_equal_43) {
   src2.bits[1] = 0b10000100011001000010000111101000;
   src2.bits[2] = 0b00000000000000000000000000000001;
   src2.bits[3] = 0b00000000000100110000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_44) {
-  s21_decimal src1, src2;
+START_TEST(equal_44) {
+  decimal src1, src2;
   int origin;
   // src1 = -2156878451.8547640000000000;
   // src2 = -2156878451.854764;
@@ -1536,14 +1529,14 @@ START_TEST(s21_equal_44) {
   src2.bits[1] = 0b00000000000001111010100110101011;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000001100000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_45) {
-  s21_decimal src1, src2;
+START_TEST(equal_45) {
+  decimal src1, src2;
   int origin;
   // src1 = 0.5456465465486476846545465485;
   // src2 = 5.4564654654864768465454654846;
@@ -1555,14 +1548,14 @@ START_TEST(s21_equal_45) {
   src2.bits[1] = 0b11100010111000110111110100101010;
   src2.bits[2] = 0b10110000010011101101001100001111;
   src2.bits[3] = 0b00000000000111000000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_46) {
-  s21_decimal src1, src2;
+START_TEST(equal_46) {
+  decimal src1, src2;
   int origin;
   // src1 = -7.7545545454546589781677545545;
   // src2 = -7.7545545454546589781677545545;
@@ -1574,14 +1567,14 @@ START_TEST(s21_equal_46) {
   src2.bits[1] = 0b01101011011011011010110110010010;
   src2.bits[2] = 0b11111010100100000010101111111010;
   src2.bits[3] = 0b10000000000111000000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_47) {
-  s21_decimal src1, src2;
+START_TEST(equal_47) {
+  decimal src1, src2;
   int origin;
   // src1 = -79228162514264337593543950335;
   // src2 = -792281625.14264337593543950335;
@@ -1593,14 +1586,14 @@ START_TEST(s21_equal_47) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b11111111111111111111111111111111;
   src2.bits[3] = 0b10000000000101000000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_48) {
-  s21_decimal src1, src2;
+START_TEST(equal_48) {
+  decimal src1, src2;
   int origin;
   // src1 = 675432788976.5424354657687;
   // src2 = 67543278.89765424354657687;
@@ -1612,14 +1605,14 @@ START_TEST(s21_equal_48) {
   src2.bits[1] = 0b11011001001111010001001011000110;
   src2.bits[2] = 0b00000000000001011001011001001000;
   src2.bits[3] = 0b00000000000100010000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_49) {
-  s21_decimal src1, src2;
+START_TEST(equal_49) {
+  decimal src1, src2;
   int origin;
   // src1 = -579895323215489956.67897455465;
   // src2 = -579895323215489956.67897455465;
@@ -1631,14 +1624,14 @@ START_TEST(s21_equal_49) {
   src2.bits[1] = 0b00111000110110101110001010110100;
   src2.bits[2] = 0b10111011010111111101000100011110;
   src2.bits[3] = 0b10000000000010110000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_50) {
-  s21_decimal src1, src2;
+START_TEST(equal_50) {
+  decimal src1, src2;
   int origin;
   // src1 = 18446744073709551615.0;
   // src2 = 1844674407370955161.50;
@@ -1650,14 +1643,14 @@ START_TEST(s21_equal_50) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b00000000000000000000000000001001;
   src2.bits[3] = 0b00000000000000100000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_51) {
-  s21_decimal src1, src2;
+START_TEST(equal_51) {
+  decimal src1, src2;
   int origin;
   // src1 = 44073709551615.0;
   // src2 = 44073709551615.00000000;
@@ -1669,14 +1662,14 @@ START_TEST(s21_equal_51) {
   src2.bits[1] = 0b11101100100011110001010001110111;
   src2.bits[2] = 0b00000000000000000000000011101110;
   src2.bits[3] = 0b00000000000010000000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_52) {
-  s21_decimal src1, src2;
+START_TEST(equal_52) {
+  decimal src1, src2;
   int origin;
   // src1 = 228162514264337.5935439503;
   // src2 = 228162514264337.59354395030000;
@@ -1688,14 +1681,14 @@ START_TEST(s21_equal_52) {
   src2.bits[1] = 0b00111001110010101010100001111000;
   src2.bits[2] = 0b01001001101110010010100100101100;
   src2.bits[3] = 0b00000000000011100000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_53) {
-  s21_decimal src1, src2;
+START_TEST(equal_53) {
+  decimal src1, src2;
   int origin;
   // src1 = -754554545454658.97816770;
   // src2 = -754554545454658.9781677;
@@ -1707,14 +1700,14 @@ START_TEST(s21_equal_53) {
   src2.bits[1] = 0b00001011011110101000110011100101;
   src2.bits[2] = 0b00000000000000000000000110011001;
   src2.bits[3] = 0b10000000000001110000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_equal_54) {
-  s21_decimal src1, src2;
+START_TEST(equal_54) {
+  decimal src1, src2;
   int origin;
   // src1 = -2.514264337593543;
   // src2 = -2.5142643375935430000000000000;
@@ -1726,121 +1719,114 @@ START_TEST(s21_equal_54) {
   src2.bits[1] = 0b10000010110010001001101110001011;
   src2.bits[2] = 0b01010001001111011000000111010100;
   src2.bits[3] = 0b10000000000111000000000000000000;
-  int result = s21_is_equal(src1, src2);
+  int result = is_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_1_1) {
-  s21_decimal first = {{4412, 5675, 1254, 0b00000100000000000010000000000000}};
-  s21_decimal second = {{4412, 5675, 1254, 0b00000100000000000010000000000000}};
-  ck_assert_int_eq(s21_is_not_equal(first, second), 0);
+START_TEST(not_equal_1_1) {
+  decimal first = {{4412, 5675, 1254, 0b00000100000000000010000000000000}};
+  decimal second = {{4412, 5675, 1254, 0b00000100000000000010000000000000}};
+  ck_assert_int_eq(is_not_equal(first, second), 0);
 }
 END_TEST
 
-START_TEST(s21_not_equal_2_1) {
-  s21_decimal first = {{4412, 5675, 1254, 0b10000100000000000010000000000000}};
-  s21_decimal second = {{4412, 5675, 1254, 0b10000100000000000010000000000000}};
-  ck_assert_int_eq(s21_is_not_equal(first, second), 0);
+START_TEST(not_equal_2_1) {
+  decimal first = {{4412, 5675, 1254, 0b10000100000000000010000000000000}};
+  decimal second = {{4412, 5675, 1254, 0b10000100000000000010000000000000}};
+  ck_assert_int_eq(is_not_equal(first, second), 0);
 }
 END_TEST
 
-START_TEST(s21_not_equal_3_fraction_1) {
-  s21_decimal first = {{4412, 5675, 1254, 0b10110010000000001110000111000011}};
-  s21_decimal second = {{4412, 5675, 1254, 0b11001001000000000010000111111110}};
-  ck_assert_int_eq(s21_is_not_equal(first, second), 0);
+START_TEST(not_equal_3_fraction_1) {
+  decimal first = {{4412, 5675, 1254, 0b10110010000000001110000111000011}};
+  decimal second = {{4412, 5675, 1254, 0b11001001000000000010000111111110}};
+  ck_assert_int_eq(is_not_equal(first, second), 0);
 }
 END_TEST
 
-START_TEST(s21_not_equal_4_sign_1) {
-  s21_decimal first = {{4412, 5675, 1254, 0b10110100111111110010000000000011}};
-  s21_decimal second = {{4412, 5675, 1254, 0b01110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_not_equal(first, second), 1);
+START_TEST(not_equal_4_sign_1) {
+  decimal first = {{4412, 5675, 1254, 0b10110100111111110010000000000011}};
+  decimal second = {{4412, 5675, 1254, 0b01110100000000000010000111111110}};
+  ck_assert_int_eq(is_not_equal(first, second), 1);
 }
 END_TEST
 
-START_TEST(s21_not_equal_5_sign_1) {
-  s21_decimal first = {{4412, 5675, 1254, 0b00110100111111110010000000000011}};
-  s21_decimal second = {{4412, 5675, 1254, 0b11110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_not_equal(first, second), 1);
+START_TEST(not_equal_5_sign_1) {
+  decimal first = {{4412, 5675, 1254, 0b00110100111111110010000000000011}};
+  decimal second = {{4412, 5675, 1254, 0b11110100000000000010000111111110}};
+  ck_assert_int_eq(is_not_equal(first, second), 1);
 }
 END_TEST
 
-START_TEST(s21_not_equal_6_1) {
-  s21_decimal first = {{4412, 5675, 1154, 0b10110100111111110010000000000011}};
-  s21_decimal second = {{4412, 5675, 1254, 0b11110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_not_equal(first, second), 1);
+START_TEST(not_equal_6_1) {
+  decimal first = {{4412, 5675, 1154, 0b10110100111111110010000000000011}};
+  decimal second = {{4412, 5675, 1254, 0b11110100000000000010000111111110}};
+  ck_assert_int_eq(is_not_equal(first, second), 1);
 }
 END_TEST
 
-START_TEST(s21_not_equal_7_1) {
-  s21_decimal first = {{4412, 5675, 1254, 0b10110100111111110010000000000011}};
-  s21_decimal second = {{4412, 5675, 1244, 0b11110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_not_equal(first, second), 1);
+START_TEST(not_equal_7_1) {
+  decimal first = {{4412, 5675, 1254, 0b10110100111111110010000000000011}};
+  decimal second = {{4412, 5675, 1244, 0b11110100000000000010000111111110}};
+  ck_assert_int_eq(is_not_equal(first, second), 1);
 }
 END_TEST
 
-START_TEST(s21_not_equal_8_1) {
-  s21_decimal first = {{4412, 5675, 1254, 0b10110100111111110010000000000011}};
-  s21_decimal second = {
-      {4412, 5675, 12541, 0b11110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_not_equal(first, second), 1);
+START_TEST(not_equal_8_1) {
+  decimal first = {{4412, 5675, 1254, 0b10110100111111110010000000000011}};
+  decimal second = {{4412, 5675, 12541, 0b11110100000000000010000111111110}};
+  ck_assert_int_eq(is_not_equal(first, second), 1);
 }
 END_TEST
 
-// START_TEST(s21_not_equal_9_ss_1) {
-//   s21_decimal first = {
+// START_TEST(not_equal_9_ss_1) {
+//   decimal first = {
 //       {0x4A1D, 05675, 1254, 0b10110100111111110010000000000011}};
-//   s21_decimal second = {
+//   decimal second = {
 //       {0x4A1D, 05675, 1254, 0b10110100111111110010000000000011}};
-//   ck_assert_int_eq(s21_is_not_equal(first, second), 0);
+//   ck_assert_int_eq(is_not_equal(first, second), 0);
 // }
 END_TEST
 
-START_TEST(s21_not_equal_10_1) {
-  s21_decimal first = {{412, 5675, 1254, 0b10110100111111110010000000000011}};
-  s21_decimal second = {{4412, 5675, 1254, 0b11110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_not_equal(first, second), 1);
+START_TEST(not_equal_10_1) {
+  decimal first = {{412, 5675, 1254, 0b10110100111111110010000000000011}};
+  decimal second = {{4412, 5675, 1254, 0b11110100000000000010000111111110}};
+  ck_assert_int_eq(is_not_equal(first, second), 1);
 }
 END_TEST
 
-START_TEST(s21_not_equal_11_zero_1) {
-  s21_decimal first = {{0, 0, 0, 0b11110100000000000010000111111110}};
-  s21_decimal second = {{0, 0, 0, 0b01110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_not_equal(first, second), 0);
+START_TEST(not_equal_11_zero_1) {
+  decimal first = {{0, 0, 0, 0b11110100000000000010000111111110}};
+  decimal second = {{0, 0, 0, 0b01110100000000000010000111111110}};
+  ck_assert_int_eq(is_not_equal(first, second), 0);
 }
 END_TEST
 
-START_TEST(s21_not_equal_12_value_1) {
-  s21_decimal first = {
-      {1564, 31452, 6109410, 0b11110100000000000010000111111110}};
-  s21_decimal second = {
-      {1564, 31452, 610941, 0b11110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_not_equal(first, second), 1);
+START_TEST(not_equal_12_value_1) {
+  decimal first = {{1564, 31452, 6109410, 0b11110100000000000010000111111110}};
+  decimal second = {{1564, 31452, 610941, 0b11110100000000000010000111111110}};
+  ck_assert_int_eq(is_not_equal(first, second), 1);
 }
 END_TEST
 
-START_TEST(s21_not_equal_13_value_1) {
-  s21_decimal first = {
-      {1564, 31452, 610941, 0b11110100000000000010000111111110}};
-  s21_decimal second = {
-      {1564, 3142, 610941, 0b11110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_not_equal(first, second), 1);
+START_TEST(not_equal_13_value_1) {
+  decimal first = {{1564, 31452, 610941, 0b11110100000000000010000111111110}};
+  decimal second = {{1564, 3142, 610941, 0b11110100000000000010000111111110}};
+  ck_assert_int_eq(is_not_equal(first, second), 1);
 }
 END_TEST
 
-START_TEST(s21_not_equal_14_value_1) {
-  s21_decimal first = {
-      {15614, 31452, 610941, 0b11110100000000000010000111111110}};
-  s21_decimal second = {
-      {1564, 31452, 610941, 0b11110100000000000010000111111110}};
-  ck_assert_int_eq(s21_is_not_equal(first, second), 1);
+START_TEST(not_equal_14_value_1) {
+  decimal first = {{15614, 31452, 610941, 0b11110100000000000010000111111110}};
+  decimal second = {{1564, 31452, 610941, 0b11110100000000000010000111111110}};
+  ck_assert_int_eq(is_not_equal(first, second), 1);
 }
 END_TEST
 
-START_TEST(s21_not_equal_1) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_1) {
+  decimal src1, src2;
   int origin;
   // src1 = 2;
   // src2 = 2;
@@ -1852,14 +1838,14 @@ START_TEST(s21_not_equal_1) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_2) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_2) {
+  decimal src1, src2;
   int origin;
   // src1 = 2;
   // src2 = 2.00;
@@ -1871,14 +1857,14 @@ START_TEST(s21_not_equal_2) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000100000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_3) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_3) {
+  decimal src1, src2;
   int origin;
   // src1 = 2;
   // src2 = 3;
@@ -1890,14 +1876,14 @@ START_TEST(s21_not_equal_3) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_4) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_4) {
+  decimal src1, src2;
   int origin;
   // src1 = 0.000000000000000000000000000;
   // src2 = 0;
@@ -1909,14 +1895,14 @@ START_TEST(s21_not_equal_4) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_5) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_5) {
+  decimal src1, src2;
   int origin;
   // src1 = -3;
   // src2 = 3;
@@ -1928,14 +1914,14 @@ START_TEST(s21_not_equal_5) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_6) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_6) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.222212;
   // src2 = 2.222212;
@@ -1947,14 +1933,14 @@ START_TEST(s21_not_equal_6) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000001100000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_7) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_7) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.22221200000000000;
   // src2 = 2.222212;
@@ -1966,14 +1952,14 @@ START_TEST(s21_not_equal_7) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000001100000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_8) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_8) {
+  decimal src1, src2;
   int origin;
   // src1 = 3.2222121;
   // src2 = 3.222212;
@@ -1985,14 +1971,14 @@ START_TEST(s21_not_equal_8) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000001100000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_9) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_9) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.222212;
   // src2 = -2.222212;
@@ -2004,14 +1990,14 @@ START_TEST(s21_not_equal_9) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000001100000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_10) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_10) {
+  decimal src1, src2;
   int origin;
   // src1 = -364748;
   // src2 = 1;
@@ -2023,14 +2009,14 @@ START_TEST(s21_not_equal_10) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_11) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_11) {
+  decimal src1, src2;
   int origin;
   // src1 = 987456543210.0;
   // src2 = 98745654321.0;
@@ -2042,14 +2028,14 @@ START_TEST(s21_not_equal_11) {
   src2.bits[1] = 0b00000000000000000000000011100101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000010000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_12) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_12) {
+  decimal src1, src2;
   int origin;
   // src1 = -9878798789.5867800;
   // src2 = -9878798789.58678;
@@ -2061,14 +2047,14 @@ START_TEST(s21_not_equal_12) {
   src2.bits[1] = 0b00000000000000111000001001111000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000001010000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_13) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_13) {
+  decimal src1, src2;
   int origin;
   // src1 = 9999999999999999999;
   // src2 = 1;
@@ -2080,14 +2066,14 @@ START_TEST(s21_not_equal_13) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_14) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_14) {
+  decimal src1, src2;
   int origin;
   // src1 = 18446744073709551615;
   // src2 = 18446744073709551615.000000000;
@@ -2099,14 +2085,14 @@ START_TEST(s21_not_equal_14) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b00111011100110101100100111111111;
   src2.bits[3] = 0b00000000000010010000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_15) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_15) {
+  decimal src1, src2;
   int origin;
   // src1 = 18446744073709551615.0;
   // src2 = 965453154;
@@ -2118,14 +2104,14 @@ START_TEST(s21_not_equal_15) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_16) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_16) {
+  decimal src1, src2;
   int origin;
   // src1 = -545454512454545.35265454545645;
   // src2 = -545454512454545.35265454545645;
@@ -2137,14 +2123,14 @@ START_TEST(s21_not_equal_16) {
   src2.bits[1] = 0b11111001111010000010010110101101;
   src2.bits[2] = 0b10110000001111101111000010010100;
   src2.bits[3] = 0b10000000000011100000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_17) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_17) {
+  decimal src1, src2;
   int origin;
   // src1 = -545454512454545.35265454545645;
   // src2 = -5.352654545456454545645464;
@@ -2156,14 +2142,14 @@ START_TEST(s21_not_equal_17) {
   src2.bits[1] = 0b11111011111111011000100101101101;
   src2.bits[2] = 0b00000000000001000110110101110111;
   src2.bits[3] = 0b10000000000110000000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_18) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_18) {
+  decimal src1, src2;
   int origin;
   // src1 = 7961327845421.879754123131254;
   // src2 = 7961327.845421879754123131254;
@@ -2175,14 +2161,14 @@ START_TEST(s21_not_equal_18) {
   src2.bits[1] = 0b01001011001101011010000111011001;
   src2.bits[2] = 0b00011001101110010111010010111111;
   src2.bits[3] = 0b00000000000101010000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_19) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_19) {
+  decimal src1, src2;
   int origin;
   // src1 = 12345677.987654345678987654346;
   // src2 = 12345677.987654000000000000000;
@@ -2194,14 +2180,14 @@ START_TEST(s21_not_equal_19) {
   src2.bits[1] = 0b11000000010001001001101110001101;
   src2.bits[2] = 0b00100111111001000001101100000000;
   src2.bits[3] = 0b00000000000101010000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_20) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_20) {
+  decimal src1, src2;
   int origin;
   // src1 = -12345677.987654345678987654346;
   // src2 = 87654323456.9876545678987653;
@@ -2213,14 +2199,14 @@ START_TEST(s21_not_equal_20) {
   src2.bits[1] = 0b11110101101111000110111111000000;
   src2.bits[2] = 0b00000010110101010000111100111111;
   src2.bits[3] = 0b00000000000100000000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_21) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_21) {
+  decimal src1, src2;
   int origin;
   // src1 = -87654323456.98765456789876530;
   // src2 = -87654323456.98765456789876531;
@@ -2232,14 +2218,14 @@ START_TEST(s21_not_equal_21) {
   src2.bits[1] = 0b10011001010111000101110110000000;
   src2.bits[2] = 0b00011100010100101001100001111111;
   src2.bits[3] = 0b10000000000100010000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_22) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_22) {
+  decimal src1, src2;
   int origin;
   // src1 = -87654323456.98765456789876530;
   // src2 = -87654323456.98765456789876530;
@@ -2251,14 +2237,14 @@ START_TEST(s21_not_equal_22) {
   src2.bits[1] = 0b10011001010111000101110110000000;
   src2.bits[2] = 0b00011100010100101001100001111111;
   src2.bits[3] = 0b10000000000100010000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_23) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_23) {
+  decimal src1, src2;
   int origin;
   // src1 = 0.0;
   // src2 = 0.69;
@@ -2270,14 +2256,14 @@ START_TEST(s21_not_equal_23) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000100000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_24) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_24) {
+  decimal src1, src2;
   int origin;
   // src1 = -69.1234567;
   // src2 = -69.12345670000000;
@@ -2289,14 +2275,14 @@ START_TEST(s21_not_equal_24) {
   src2.bits[1] = 0b00000000000110001000111010111101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000011100000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_25) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_25) {
+  decimal src1, src2;
   int origin;
   // src1 = 13436577854.000000000000;
   // src2 = 13436577854;
@@ -2308,14 +2294,14 @@ START_TEST(s21_not_equal_25) {
   src2.bits[1] = 0b00000000000000000000000000000011;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_26) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_26) {
+  decimal src1, src2;
   int origin;
   // src1 = 79228162514264337593543950335;
   // src2 = 79228162514264337593543950335;
@@ -2327,14 +2313,14 @@ START_TEST(s21_not_equal_26) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b11111111111111111111111111111111;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_27) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_27) {
+  decimal src1, src2;
   int origin;
   // src1 = 79228162514264337593543950335;
   // src2 = -79228162514264337593543950335;
@@ -2346,14 +2332,14 @@ START_TEST(s21_not_equal_27) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b11111111111111111111111111111111;
   src2.bits[3] = 0b10000000000000000000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_28) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_28) {
+  decimal src1, src2;
   int origin;
   // src1 = 665464545;
   // src2 = 8798232189789785;
@@ -2365,14 +2351,14 @@ START_TEST(s21_not_equal_28) {
   src2.bits[1] = 0b00000000000111110100000111110010;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_29) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_29) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.7986531268974139743;
   // src2 = 2.7986531268974139743;
@@ -2384,14 +2370,14 @@ START_TEST(s21_not_equal_29) {
   src2.bits[1] = 0b10000100011001000010000111101000;
   src2.bits[2] = 0b00000000000000000000000000000001;
   src2.bits[3] = 0b00000000000100110000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_30) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_30) {
+  decimal src1, src2;
   int origin;
   // src1 = -2156878451.8547640000000000;
   // src2 = -2156878451.854764;
@@ -2403,14 +2389,14 @@ START_TEST(s21_not_equal_30) {
   src2.bits[1] = 0b00000000000001111010100110101011;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000001100000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_31) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_31) {
+  decimal src1, src2;
   int origin;
   // src1 = 0.5456465465486476846545465485;
   // src2 = 5.4564654654864768465454654846;
@@ -2422,14 +2408,14 @@ START_TEST(s21_not_equal_31) {
   src2.bits[1] = 0b11100010111000110111110100101010;
   src2.bits[2] = 0b10110000010011101101001100001111;
   src2.bits[3] = 0b00000000000111000000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_32) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_32) {
+  decimal src1, src2;
   int origin;
   // src1 = -7.7545545454546589781677545545;
   // src2 = -7.7545545454546589781677545545;
@@ -2441,14 +2427,14 @@ START_TEST(s21_not_equal_32) {
   src2.bits[1] = 0b01101011011011011010110110010010;
   src2.bits[2] = 0b11111010100100000010101111111010;
   src2.bits[3] = 0b10000000000111000000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_33) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_33) {
+  decimal src1, src2;
   int origin;
   // src1 = -79228162514264337593543950335;
   // src2 = -792281625.14264337593543950335;
@@ -2460,14 +2446,14 @@ START_TEST(s21_not_equal_33) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b11111111111111111111111111111111;
   src2.bits[3] = 0b10000000000101000000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_34) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_34) {
+  decimal src1, src2;
   int origin;
   // src1 = 675432788976.5424354657687;
   // src2 = 67543278.89765424354657687;
@@ -2479,14 +2465,14 @@ START_TEST(s21_not_equal_34) {
   src2.bits[1] = 0b11011001001111010001001011000110;
   src2.bits[2] = 0b00000000000001011001011001001000;
   src2.bits[3] = 0b00000000000100010000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_35) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_35) {
+  decimal src1, src2;
   int origin;
   // src1 = -579895323215489956.67897455465;
   // src2 = -579895323215489956.67897455465;
@@ -2498,14 +2484,14 @@ START_TEST(s21_not_equal_35) {
   src2.bits[1] = 0b00111000110110101110001010110100;
   src2.bits[2] = 0b10111011010111111101000100011110;
   src2.bits[3] = 0b10000000000010110000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_36) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_36) {
+  decimal src1, src2;
   int origin;
   // src1 = 18446744073709551615.0;
   // src2 = 1844674407370955161.50;
@@ -2517,14 +2503,14 @@ START_TEST(s21_not_equal_36) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b00000000000000000000000000001001;
   src2.bits[3] = 0b00000000000000100000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_37) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_37) {
+  decimal src1, src2;
   int origin;
   // src1 = 44073709551615.0;
   // src2 = 44073709551615.00000000;
@@ -2536,14 +2522,14 @@ START_TEST(s21_not_equal_37) {
   src2.bits[1] = 0b11101100100011110001010001110111;
   src2.bits[2] = 0b00000000000000000000000011101110;
   src2.bits[3] = 0b00000000000010000000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_38) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_38) {
+  decimal src1, src2;
   int origin;
   // src1 = 228162514264337.5935439503;
   // src2 = 228162514264337.59354395030000;
@@ -2555,14 +2541,14 @@ START_TEST(s21_not_equal_38) {
   src2.bits[1] = 0b00111001110010101010100001111000;
   src2.bits[2] = 0b01001001101110010010100100101100;
   src2.bits[3] = 0b00000000000011100000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_39) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_39) {
+  decimal src1, src2;
   int origin;
   // src1 = -754554545454658.97816770;
   // src2 = -754554545454658.9781677;
@@ -2574,14 +2560,14 @@ START_TEST(s21_not_equal_39) {
   src2.bits[1] = 0b00001011011110101000110011100101;
   src2.bits[2] = 0b00000000000000000000000110011001;
   src2.bits[3] = 0b10000000000001110000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_not_equal_40) {
-  s21_decimal src1, src2;
+START_TEST(not_equal_40) {
+  decimal src1, src2;
   int origin;
   // src1 = -2.514264337593543;
   // src2 = -2.5142643375935430000000000000;
@@ -2593,14 +2579,14 @@ START_TEST(s21_not_equal_40) {
   src2.bits[1] = 0b10000010110010001001101110001011;
   src2.bits[2] = 0b01010001001111011000000111010100;
   src2.bits[3] = 0b10000000000111000000000000000000;
-  int result = s21_is_not_equal(src1, src2);
+  int result = is_not_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_1) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_1) {
+  decimal src1, src2;
   int origin;
   // src1 = 2;
   // src2 = 2;
@@ -2612,14 +2598,14 @@ START_TEST(s21_less_or_equal_1) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_2) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_2) {
+  decimal src1, src2;
   int origin;
   // src1 = 2;
   // src2 = 2.00;
@@ -2631,14 +2617,14 @@ START_TEST(s21_less_or_equal_2) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000100000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_3) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_3) {
+  decimal src1, src2;
   int origin;
   // src1 = 2;
   // src2 = 3;
@@ -2650,14 +2636,14 @@ START_TEST(s21_less_or_equal_3) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_4) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_4) {
+  decimal src1, src2;
   int origin;
   // src1 = 0.000000000000000000000000000;
   // src2 = 0;
@@ -2669,14 +2655,14 @@ START_TEST(s21_less_or_equal_4) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_5) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_5) {
+  decimal src1, src2;
   int origin;
   // src1 = -3;
   // src2 = 3;
@@ -2688,14 +2674,14 @@ START_TEST(s21_less_or_equal_5) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_6) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_6) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.222212;
   // src2 = 2.222212;
@@ -2707,14 +2693,14 @@ START_TEST(s21_less_or_equal_6) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000001100000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_7) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_7) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.22221200000001000;
   // src2 = 2.222212;
@@ -2726,14 +2712,14 @@ START_TEST(s21_less_or_equal_7) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000001100000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_8) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_8) {
+  decimal src1, src2;
   int origin;
   // src1 = 3.2222121;
   // src2 = 3.222212;
@@ -2745,14 +2731,14 @@ START_TEST(s21_less_or_equal_8) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000001100000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_9) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_9) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.222212;
   // src2 = -2.2222120002;
@@ -2764,14 +2750,14 @@ START_TEST(s21_less_or_equal_9) {
   src2.bits[1] = 0b00000000000000000000000000000101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000010100000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_10) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_10) {
+  decimal src1, src2;
   int origin;
   // src1 = -364748;
   // src2 = 1;
@@ -2783,14 +2769,14 @@ START_TEST(s21_less_or_equal_10) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_11) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_11) {
+  decimal src1, src2;
   int origin;
   // src1 = 987456543210.0;
   // src2 = 98745654321.0;
@@ -2802,14 +2788,14 @@ START_TEST(s21_less_or_equal_11) {
   src2.bits[1] = 0b00000000000000000000000011100101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000010000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_12) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_12) {
+  decimal src1, src2;
   int origin;
   // src1 = -9878798789.5867800;
   // src2 = -9878798789.58678;
@@ -2821,14 +2807,14 @@ START_TEST(s21_less_or_equal_12) {
   src2.bits[1] = 0b00000000000000111000001001111000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000001010000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_13) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_13) {
+  decimal src1, src2;
   int origin;
   // src1 = 9999999999999999999;
   // src2 = 1;
@@ -2840,14 +2826,14 @@ START_TEST(s21_less_or_equal_13) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_14) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_14) {
+  decimal src1, src2;
   int origin;
   // src1 = 18446744073709551615;
   // src2 = 18446744073709551615.000000000;
@@ -2859,14 +2845,14 @@ START_TEST(s21_less_or_equal_14) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b00111011100110101100100111111111;
   src2.bits[3] = 0b00000000000010010000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_15) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_15) {
+  decimal src1, src2;
   int origin;
   // src1 = 18446744073709551615.0;
   // src2 = 965453154;
@@ -2878,14 +2864,14 @@ START_TEST(s21_less_or_equal_15) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_16) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_16) {
+  decimal src1, src2;
   int origin;
   // src1 = -545454512454545.35265454545645;
   // src2 = -545454512454545.35265454545645;
@@ -2897,14 +2883,14 @@ START_TEST(s21_less_or_equal_16) {
   src2.bits[1] = 0b11111001111010000010010110101101;
   src2.bits[2] = 0b10110000001111101111000010010100;
   src2.bits[3] = 0b10000000000011100000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_17) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_17) {
+  decimal src1, src2;
   int origin;
   // src1 = -545454512454545.35265454545645;
   // src2 = -5.352654545456454545645464;
@@ -2916,14 +2902,14 @@ START_TEST(s21_less_or_equal_17) {
   src2.bits[1] = 0b11111011111111011000100101101101;
   src2.bits[2] = 0b00000000000001000110110101110111;
   src2.bits[3] = 0b10000000000110000000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_18) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_18) {
+  decimal src1, src2;
   int origin;
   // src1 = 7961327845421.879754123131254;
   // src2 = 7961327.845421879754123131254;
@@ -2935,14 +2921,14 @@ START_TEST(s21_less_or_equal_18) {
   src2.bits[1] = 0b01001011001101011010000111011001;
   src2.bits[2] = 0b00011001101110010111010010111111;
   src2.bits[3] = 0b00000000000101010000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_19) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_19) {
+  decimal src1, src2;
   int origin;
   // src1 = 12345677.987654345678987654346;
   // src2 = 12345677.987654000000000000000;
@@ -2954,14 +2940,14 @@ START_TEST(s21_less_or_equal_19) {
   src2.bits[1] = 0b11000000010001001001101110001101;
   src2.bits[2] = 0b00100111111001000001101100000000;
   src2.bits[3] = 0b00000000000101010000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_20) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_20) {
+  decimal src1, src2;
   int origin;
   // src1 = -12345677.987654345678987654346;
   // src2 = 87654323456.9876545678987653;
@@ -2973,14 +2959,14 @@ START_TEST(s21_less_or_equal_20) {
   src2.bits[1] = 0b11110101101111000110111111000000;
   src2.bits[2] = 0b00000010110101010000111100111111;
   src2.bits[3] = 0b00000000000100000000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_21) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_21) {
+  decimal src1, src2;
   int origin;
   // src1 = -87654323456.98765456789876530;
   // src2 = -87654323456.98765456789876531;
@@ -2992,14 +2978,14 @@ START_TEST(s21_less_or_equal_21) {
   src2.bits[1] = 0b10011001010111000101110110000000;
   src2.bits[2] = 0b00011100010100101001100001111111;
   src2.bits[3] = 0b10000000000100010000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_22) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_22) {
+  decimal src1, src2;
   int origin;
   // src1 = -87654323456.98765456789876530;
   // src2 = -87654323456.98765456789876530;
@@ -3011,14 +2997,14 @@ START_TEST(s21_less_or_equal_22) {
   src2.bits[1] = 0b10011001010111000101110110000000;
   src2.bits[2] = 0b00011100010100101001100001111111;
   src2.bits[3] = 0b10000000000100010000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_23) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_23) {
+  decimal src1, src2;
   int origin;
   // src1 = 0.0;
   // src2 = 0.69;
@@ -3030,14 +3016,14 @@ START_TEST(s21_less_or_equal_23) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000100000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_24) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_24) {
+  decimal src1, src2;
   int origin;
   // src1 = -69.1234567;
   // src2 = -69.12345670000000;
@@ -3049,14 +3035,14 @@ START_TEST(s21_less_or_equal_24) {
   src2.bits[1] = 0b00000000000110001000111010111101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000011100000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_25) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_25) {
+  decimal src1, src2;
   int origin;
   // src1 = 13436577854.000000000000;
   // src2 = 13436577854;
@@ -3068,14 +3054,14 @@ START_TEST(s21_less_or_equal_25) {
   src2.bits[1] = 0b00000000000000000000000000000011;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_26) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_26) {
+  decimal src1, src2;
   int origin;
   // src1 = 79228162514264337593543950335;
   // src2 = 79228162514264337593543950335;
@@ -3087,14 +3073,14 @@ START_TEST(s21_less_or_equal_26) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b11111111111111111111111111111111;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_27) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_27) {
+  decimal src1, src2;
   int origin;
   // src1 = 79228162514264337593543950335;
   // src2 = -79228162514264337593543950335;
@@ -3106,14 +3092,14 @@ START_TEST(s21_less_or_equal_27) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b11111111111111111111111111111111;
   src2.bits[3] = 0b10000000000000000000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_28) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_28) {
+  decimal src1, src2;
   int origin;
   // src1 = 665464545;
   // src2 = 8798232189789785;
@@ -3125,14 +3111,14 @@ START_TEST(s21_less_or_equal_28) {
   src2.bits[1] = 0b00000000000111110100000111110010;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_29) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_29) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.7986531268974139743;
   // src2 = 2.7986531268974139743;
@@ -3144,14 +3130,14 @@ START_TEST(s21_less_or_equal_29) {
   src2.bits[1] = 0b10000100011001000010000111101000;
   src2.bits[2] = 0b00000000000000000000000000000001;
   src2.bits[3] = 0b00000000000100110000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_30) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_30) {
+  decimal src1, src2;
   int origin;
   // src1 = -2156878451.8547640000000000;
   // src2 = -2156878451.854764;
@@ -3163,14 +3149,14 @@ START_TEST(s21_less_or_equal_30) {
   src2.bits[1] = 0b00000000000001111010100110101011;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000001100000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_31) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_31) {
+  decimal src1, src2;
   int origin;
   // src1 = 0.5456465465486476846545465485;
   // src2 = 5.4564654654864768465454654846;
@@ -3182,14 +3168,14 @@ START_TEST(s21_less_or_equal_31) {
   src2.bits[1] = 0b11100010111000110111110100101010;
   src2.bits[2] = 0b10110000010011101101001100001111;
   src2.bits[3] = 0b00000000000111000000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_32) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_32) {
+  decimal src1, src2;
   int origin;
   // src1 = -7.7545545454546589781677545545;
   // src2 = -7.7545545454546589781677545545;
@@ -3201,14 +3187,14 @@ START_TEST(s21_less_or_equal_32) {
   src2.bits[1] = 0b01101011011011011010110110010010;
   src2.bits[2] = 0b11111010100100000010101111111010;
   src2.bits[3] = 0b10000000000111000000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_33) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_33) {
+  decimal src1, src2;
   int origin;
   // src1 = -79228162514264337593543950335;
   // src2 = -792281625.14264337593543950335;
@@ -3220,14 +3206,14 @@ START_TEST(s21_less_or_equal_33) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b11111111111111111111111111111111;
   src2.bits[3] = 0b10000000000101000000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_34) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_34) {
+  decimal src1, src2;
   int origin;
   // src1 = 675432788976.5424354657687;
   // src2 = 67543278.89765424354657687;
@@ -3239,14 +3225,14 @@ START_TEST(s21_less_or_equal_34) {
   src2.bits[1] = 0b11011001001111010001001011000110;
   src2.bits[2] = 0b00000000000001011001011001001000;
   src2.bits[3] = 0b00000000000100010000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_35) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_35) {
+  decimal src1, src2;
   int origin;
   // src1 = -579895323215489956.67897455465;
   // src2 = -579895323215489956.67897455465;
@@ -3258,14 +3244,14 @@ START_TEST(s21_less_or_equal_35) {
   src2.bits[1] = 0b00111000110110101110001010110100;
   src2.bits[2] = 0b10111011010111111101000100011110;
   src2.bits[3] = 0b10000000000010110000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_36) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_36) {
+  decimal src1, src2;
   int origin;
   // src1 = 18446744073709551615.0;
   // src2 = 1844674407370955161.50;
@@ -3277,14 +3263,14 @@ START_TEST(s21_less_or_equal_36) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b00000000000000000000000000001001;
   src2.bits[3] = 0b00000000000000100000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_37) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_37) {
+  decimal src1, src2;
   int origin;
   // src1 = 44073709551615.0;
   // src2 = 44073709551615.00000000;
@@ -3296,14 +3282,14 @@ START_TEST(s21_less_or_equal_37) {
   src2.bits[1] = 0b11101100100011110001010001110111;
   src2.bits[2] = 0b00000000000000000000000011101110;
   src2.bits[3] = 0b00000000000010000000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_38) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_38) {
+  decimal src1, src2;
   int origin;
   // src1 = 228162514264337.5935439503;
   // src2 = 228162514264337.59354395030000;
@@ -3315,14 +3301,14 @@ START_TEST(s21_less_or_equal_38) {
   src2.bits[1] = 0b00111001110010101010100001111000;
   src2.bits[2] = 0b01001001101110010010100100101100;
   src2.bits[3] = 0b00000000000011100000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_39) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_39) {
+  decimal src1, src2;
   int origin;
   // src1 = -754554545454658.97816770;
   // src2 = -754554545454658.9781677;
@@ -3334,14 +3320,14 @@ START_TEST(s21_less_or_equal_39) {
   src2.bits[1] = 0b00001011011110101000110011100101;
   src2.bits[2] = 0b00000000000000000000000110011001;
   src2.bits[3] = 0b10000000000001110000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_less_or_equal_40) {
-  s21_decimal src1, src2;
+START_TEST(less_or_equal_40) {
+  decimal src1, src2;
   int origin;
   // src1 = -2.514264337593543;
   // src2 = -2.514264337593542;
@@ -3353,14 +3339,14 @@ START_TEST(s21_less_or_equal_40) {
   src2.bits[1] = 0b00000000000010001110111010110101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000011110000000000000000;
-  int result = s21_is_less_or_equal(src1, src2);
+  int result = is_less_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_1) {
-  s21_decimal src1, src2;
+START_TEST(greater_1) {
+  decimal src1, src2;
   int origin;
   // src1 = 2;
   // src2 = 2;
@@ -3372,14 +3358,14 @@ START_TEST(s21_greater_1) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_2) {
-  s21_decimal src1, src2;
+START_TEST(greater_2) {
+  decimal src1, src2;
   int origin;
   // src1 = 457;
   // src2 = 2.00;
@@ -3391,14 +3377,14 @@ START_TEST(s21_greater_2) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000100000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_3) {
-  s21_decimal src1, src2;
+START_TEST(greater_3) {
+  decimal src1, src2;
   int origin;
   // src1 = 2;
   // src2 = 54;
@@ -3410,14 +3396,14 @@ START_TEST(s21_greater_3) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_4) {
-  s21_decimal src1, src2;
+START_TEST(greater_4) {
+  decimal src1, src2;
   int origin;
   // src1 = 0.000000000000000000000000000;
   // src2 = 0;
@@ -3429,14 +3415,14 @@ START_TEST(s21_greater_4) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_5) {
-  s21_decimal src1, src2;
+START_TEST(greater_5) {
+  decimal src1, src2;
   int origin;
   // src1 = -3;
   // src2 = 3;
@@ -3448,14 +3434,14 @@ START_TEST(s21_greater_5) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_6) {
-  s21_decimal src1, src2;
+START_TEST(greater_6) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.222212;
   // src2 = 2.222212;
@@ -3467,14 +3453,14 @@ START_TEST(s21_greater_6) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000001100000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_7) {
-  s21_decimal src1, src2;
+START_TEST(greater_7) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.22221200000001000;
   // src2 = 2.222212;
@@ -3486,14 +3472,14 @@ START_TEST(s21_greater_7) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000001100000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_8) {
-  s21_decimal src1, src2;
+START_TEST(greater_8) {
+  decimal src1, src2;
   int origin;
   // src1 = 3.745754741;
   // src2 = 3.222212;
@@ -3505,14 +3491,14 @@ START_TEST(s21_greater_8) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000001100000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_9) {
-  s21_decimal src1, src2;
+START_TEST(greater_9) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.222212;
   // src2 = -2.2222120002;
@@ -3524,14 +3510,14 @@ START_TEST(s21_greater_9) {
   src2.bits[1] = 0b00000000000000000000000000000101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000010100000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_10) {
-  s21_decimal src1, src2;
+START_TEST(greater_10) {
+  decimal src1, src2;
   int origin;
   // src1 = -364748;
   // src2 = 1;
@@ -3543,14 +3529,14 @@ START_TEST(s21_greater_10) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_11) {
-  s21_decimal src1, src2;
+START_TEST(greater_11) {
+  decimal src1, src2;
   int origin;
   // src1 = 987456543210.0;
   // src2 = 98745654321.0;
@@ -3562,14 +3548,14 @@ START_TEST(s21_greater_11) {
   src2.bits[1] = 0b00000000000000000000000011100101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000010000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_12) {
-  s21_decimal src1, src2;
+START_TEST(greater_12) {
+  decimal src1, src2;
   int origin;
   // src1 = -9878798789.5867800;
   // src2 = -9878798789.58678;
@@ -3581,14 +3567,14 @@ START_TEST(s21_greater_12) {
   src2.bits[1] = 0b00000000000000111000001001111000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000001010000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_13) {
-  s21_decimal src1, src2;
+START_TEST(greater_13) {
+  decimal src1, src2;
   int origin;
   // src1 = 9999999999999999999;
   // src2 = 1;
@@ -3600,14 +3586,14 @@ START_TEST(s21_greater_13) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_14) {
-  s21_decimal src1, src2;
+START_TEST(greater_14) {
+  decimal src1, src2;
   int origin;
   // src1 = 18446744073709551615;
   // src2 = 434345343551615.00000000000;
@@ -3619,14 +3605,14 @@ START_TEST(s21_greater_14) {
   src2.bits[1] = 0b11010011010011111110100110011101;
   src2.bits[2] = 0b00000000001000111110110110011110;
   src2.bits[3] = 0b00000000000010110000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_15) {
-  s21_decimal src1, src2;
+START_TEST(greater_15) {
+  decimal src1, src2;
   int origin;
   // src1 = 18446744073709551615.0;
   // src2 = 965453154;
@@ -3638,14 +3624,14 @@ START_TEST(s21_greater_15) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_16) {
-  s21_decimal src1, src2;
+START_TEST(greater_16) {
+  decimal src1, src2;
   int origin;
   // src1 = -796214545.3526545454564545456;
   // src2 = -545454512454545.35265454545645;
@@ -3657,14 +3643,14 @@ START_TEST(s21_greater_16) {
   src2.bits[1] = 0b11111001111010000010010110101101;
   src2.bits[2] = 0b10110000001111101111000010010100;
   src2.bits[3] = 0b10000000000011100000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_17) {
-  s21_decimal src1, src2;
+START_TEST(greater_17) {
+  decimal src1, src2;
   int origin;
   // src1 = -545454512454545.35265454545645;
   // src2 = -5.352654545456454545645464;
@@ -3676,14 +3662,14 @@ START_TEST(s21_greater_17) {
   src2.bits[1] = 0b11111011111111011000100101101101;
   src2.bits[2] = 0b00000000000001000110110101110111;
   src2.bits[3] = 0b10000000000110000000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_18) {
-  s21_decimal src1, src2;
+START_TEST(greater_18) {
+  decimal src1, src2;
   int origin;
   // src1 = -7961327845421.843434341378545;
   // src2 = 7961327.845421879754123131254;
@@ -3695,14 +3681,14 @@ START_TEST(s21_greater_18) {
   src2.bits[1] = 0b01001011001101011010000111011001;
   src2.bits[2] = 0b00011001101110010111010010111111;
   src2.bits[3] = 0b00000000000101010000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_19) {
-  s21_decimal src1, src2;
+START_TEST(greater_19) {
+  decimal src1, src2;
   int origin;
   // src1 = 12345677.987654345678987654346;
   // src2 = 12345677.987654000000000000000;
@@ -3714,14 +3700,14 @@ START_TEST(s21_greater_19) {
   src2.bits[1] = 0b11000000010001001001101110001101;
   src2.bits[2] = 0b00100111111001000001101100000000;
   src2.bits[3] = 0b00000000000101010000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_20) {
-  s21_decimal src1, src2;
+START_TEST(greater_20) {
+  decimal src1, src2;
   int origin;
   // src1 = 12345677.987654345678987654346;
   // src2 = 145752736456.9876545678987653;
@@ -3733,14 +3719,14 @@ START_TEST(s21_greater_20) {
   src2.bits[1] = 0b11000001100101010111000111101011;
   src2.bits[2] = 0b00000100101101011010001101101100;
   src2.bits[3] = 0b00000000000100000000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_21) {
-  s21_decimal src1, src2;
+START_TEST(greater_21) {
+  decimal src1, src2;
   int origin;
   // src1 = 87654323456.98765456789876530;
   // src2 = -87654323456.98765456789876531;
@@ -3752,14 +3738,14 @@ START_TEST(s21_greater_21) {
   src2.bits[1] = 0b10011001010111000101110110000000;
   src2.bits[2] = 0b00011100010100101001100001111111;
   src2.bits[3] = 0b10000000000100010000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_22) {
-  s21_decimal src1, src2;
+START_TEST(greater_22) {
+  decimal src1, src2;
   int origin;
   // src1 = -854764561465456456.9876545679;
   // src2 = -87654323456.98765456789876530;
@@ -3771,14 +3757,14 @@ START_TEST(s21_greater_22) {
   src2.bits[1] = 0b10011001010111000101110110000000;
   src2.bits[2] = 0b00011100010100101001100001111111;
   src2.bits[3] = 0b10000000000100010000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_23) {
-  s21_decimal src1, src2;
+START_TEST(greater_23) {
+  decimal src1, src2;
   int origin;
   // src1 = 0.0;
   // src2 = 0.69;
@@ -3790,14 +3776,14 @@ START_TEST(s21_greater_23) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000100000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_24) {
-  s21_decimal src1, src2;
+START_TEST(greater_24) {
+  decimal src1, src2;
   int origin;
   // src1 = -69.1234567;
   // src2 = -69.12345670000000;
@@ -3809,14 +3795,14 @@ START_TEST(s21_greater_24) {
   src2.bits[1] = 0b00000000000110001000111010111101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000011100000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_25) {
-  s21_decimal src1, src2;
+START_TEST(greater_25) {
+  decimal src1, src2;
   int origin;
   // src1 = 13436577854.000000000000;
   // src2 = 13436577854;
@@ -3828,14 +3814,14 @@ START_TEST(s21_greater_25) {
   src2.bits[1] = 0b00000000000000000000000000000011;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_26) {
-  s21_decimal src1, src2;
+START_TEST(greater_26) {
+  decimal src1, src2;
   int origin;
   // src1 = 79228162514264337593543950335;
   // src2 = 79228162514264337593543950335;
@@ -3847,14 +3833,14 @@ START_TEST(s21_greater_26) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b11111111111111111111111111111111;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_27) {
-  s21_decimal src1, src2;
+START_TEST(greater_27) {
+  decimal src1, src2;
   int origin;
   // src1 = 79228162514264337593543950335;
   // src2 = -79228162514264337593543950335;
@@ -3866,14 +3852,14 @@ START_TEST(s21_greater_27) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b11111111111111111111111111111111;
   src2.bits[3] = 0b10000000000000000000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_28) {
-  s21_decimal src1, src2;
+START_TEST(greater_28) {
+  decimal src1, src2;
   int origin;
   // src1 = 665464545;
   // src2 = 8798232189789785;
@@ -3885,14 +3871,14 @@ START_TEST(s21_greater_28) {
   src2.bits[1] = 0b00000000000111110100000111110010;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_29) {
-  s21_decimal src1, src2;
+START_TEST(greater_29) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.7986531268974139743;
   // src2 = 2.7986531268974139743;
@@ -3904,14 +3890,14 @@ START_TEST(s21_greater_29) {
   src2.bits[1] = 0b10000100011001000010000111101000;
   src2.bits[2] = 0b00000000000000000000000000000001;
   src2.bits[3] = 0b00000000000100110000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_30) {
-  s21_decimal src1, src2;
+START_TEST(greater_30) {
+  decimal src1, src2;
   int origin;
   // src1 = -2156878451.8547640000000000;
   // src2 = -2156878451.854764;
@@ -3923,14 +3909,14 @@ START_TEST(s21_greater_30) {
   src2.bits[1] = 0b00000000000001111010100110101011;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000001100000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_31) {
-  s21_decimal src1, src2;
+START_TEST(greater_31) {
+  decimal src1, src2;
   int origin;
   // src1 = 0.5456465465486476846545465485;
   // src2 = 45645405.456456345684654546548;
@@ -3942,14 +3928,14 @@ START_TEST(s21_greater_31) {
   src2.bits[1] = 0b11111110010110110111101101110010;
   src2.bits[2] = 0b10010011011111001111111010010011;
   src2.bits[3] = 0b00000000000101010000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_32) {
-  s21_decimal src1, src2;
+START_TEST(greater_32) {
+  decimal src1, src2;
   int origin;
   // src1 = -776890.75455454213415678965898;
   // src2 = -7.7545545454546589781677545545;
@@ -3961,14 +3947,14 @@ START_TEST(s21_greater_32) {
   src2.bits[1] = 0b01101011011011011010110110010010;
   src2.bits[2] = 0b11111010100100000010101111111010;
   src2.bits[3] = 0b10000000000111000000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_33) {
-  s21_decimal src1, src2;
+START_TEST(greater_33) {
+  decimal src1, src2;
   int origin;
   // src1 = -732123534337593543950335.12;
   // src2 = -792281625.14264337593543950335;
@@ -3980,14 +3966,14 @@ START_TEST(s21_greater_33) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b11111111111111111111111111111111;
   src2.bits[3] = 0b10000000000101000000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_34) {
-  s21_decimal src1, src2;
+START_TEST(greater_34) {
+  decimal src1, src2;
   int origin;
   // src1 = 675432788976.5424354657687;
   // src2 = 67543278.89765424354657687;
@@ -3999,14 +3985,14 @@ START_TEST(s21_greater_34) {
   src2.bits[1] = 0b11011001001111010001001011000110;
   src2.bits[2] = 0b00000000000001011001011001001000;
   src2.bits[3] = 0b00000000000100010000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_35) {
-  s21_decimal src1, src2;
+START_TEST(greater_35) {
+  decimal src1, src2;
   int origin;
   // src1 = -579895323215489956.67897455465;
   // src2 = -579895323215489956.67897455465;
@@ -4018,14 +4004,14 @@ START_TEST(s21_greater_35) {
   src2.bits[1] = 0b00111000110110101110001010110100;
   src2.bits[2] = 0b10111011010111111101000100011110;
   src2.bits[3] = 0b10000000000010110000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_36) {
-  s21_decimal src1, src2;
+START_TEST(greater_36) {
+  decimal src1, src2;
   int origin;
   // src1 = 123523543453453453.0;
   // src2 = 1844674407370955161.50;
@@ -4037,14 +4023,14 @@ START_TEST(s21_greater_36) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b00000000000000000000000000001001;
   src2.bits[3] = 0b00000000000000100000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_37) {
-  s21_decimal src1, src2;
+START_TEST(greater_37) {
+  decimal src1, src2;
   int origin;
   // src1 = 31231232456315.0;
   // src2 = 44073709551615.00000000;
@@ -4056,14 +4042,14 @@ START_TEST(s21_greater_37) {
   src2.bits[1] = 0b11101100100011110001010001110111;
   src2.bits[2] = 0b00000000000000000000000011101110;
   src2.bits[3] = 0b00000000000010000000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_38) {
-  s21_decimal src1, src2;
+START_TEST(greater_38) {
+  decimal src1, src2;
   int origin;
   // src1 = 78987543557678337.5935439503;
   // src2 = 228162514264337.59354395030000;
@@ -4075,14 +4061,14 @@ START_TEST(s21_greater_38) {
   src2.bits[1] = 0b00111001110010101010100001111000;
   src2.bits[2] = 0b01001001101110010010100100101100;
   src2.bits[3] = 0b00000000000011100000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_39) {
-  s21_decimal src1, src2;
+START_TEST(greater_39) {
+  decimal src1, src2;
   int origin;
   // src1 = -754567488438.97816770;
   // src2 = -754554545454658.9781677;
@@ -4094,14 +4080,14 @@ START_TEST(s21_greater_39) {
   src2.bits[1] = 0b00001011011110101000110011100101;
   src2.bits[2] = 0b00000000000000000000000110011001;
   src2.bits[3] = 0b10000000000001110000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_40) {
-  s21_decimal src1, src2;
+START_TEST(greater_40) {
+  decimal src1, src2;
   int origin;
   // src1 = -2.514475768684753643;
   // src2 = -2.514264337593542;
@@ -4113,14 +4099,14 @@ START_TEST(s21_greater_40) {
   src2.bits[1] = 0b00000000000010001110111010110101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000011110000000000000000;
-  int result = s21_is_greater(src1, src2);
+  int result = is_greater(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_1) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_1) {
+  decimal src1, src2;
   int origin;
   // src1 = 2;
   // src2 = 2;
@@ -4132,14 +4118,14 @@ START_TEST(s21_greater_or_equal_1) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_2) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_2) {
+  decimal src1, src2;
   int origin;
   // src1 = 457;
   // src2 = 2.00;
@@ -4151,14 +4137,14 @@ START_TEST(s21_greater_or_equal_2) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000100000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_3) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_3) {
+  decimal src1, src2;
   int origin;
   // src1 = 2;
   // src2 = 54;
@@ -4170,14 +4156,14 @@ START_TEST(s21_greater_or_equal_3) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_4) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_4) {
+  decimal src1, src2;
   int origin;
   // src1 = 0.000000000000000000000000000;
   // src2 = 0;
@@ -4189,14 +4175,14 @@ START_TEST(s21_greater_or_equal_4) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_5) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_5) {
+  decimal src1, src2;
   int origin;
   // src1 = -3;
   // src2 = 3;
@@ -4208,14 +4194,14 @@ START_TEST(s21_greater_or_equal_5) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_6) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_6) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.222212;
   // src2 = 2.222212;
@@ -4227,14 +4213,14 @@ START_TEST(s21_greater_or_equal_6) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000001100000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_7) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_7) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.22221200000001000;
   // src2 = 2.222212;
@@ -4246,14 +4232,14 @@ START_TEST(s21_greater_or_equal_7) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000001100000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_8) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_8) {
+  decimal src1, src2;
   int origin;
   // src1 = 3.745754741;
   // src2 = 3.222212;
@@ -4265,14 +4251,14 @@ START_TEST(s21_greater_or_equal_8) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000001100000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_9) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_9) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.222212;
   // src2 = -2.2222120002;
@@ -4284,14 +4270,14 @@ START_TEST(s21_greater_or_equal_9) {
   src2.bits[1] = 0b00000000000000000000000000000101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000010100000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_10) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_10) {
+  decimal src1, src2;
   int origin;
   // src1 = -364748;
   // src2 = 1;
@@ -4303,14 +4289,14 @@ START_TEST(s21_greater_or_equal_10) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_11) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_11) {
+  decimal src1, src2;
   int origin;
   // src1 = 987456543210.0;
   // src2 = 98745654321.0;
@@ -4322,14 +4308,14 @@ START_TEST(s21_greater_or_equal_11) {
   src2.bits[1] = 0b00000000000000000000000011100101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000010000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_12) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_12) {
+  decimal src1, src2;
   int origin;
   // src1 = -9878798789.5867800;
   // src2 = -9878798789.58678;
@@ -4341,14 +4327,14 @@ START_TEST(s21_greater_or_equal_12) {
   src2.bits[1] = 0b00000000000000111000001001111000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000001010000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_13) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_13) {
+  decimal src1, src2;
   int origin;
   // src1 = 9999999999999999999;
   // src2 = 1;
@@ -4360,14 +4346,14 @@ START_TEST(s21_greater_or_equal_13) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_14) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_14) {
+  decimal src1, src2;
   int origin;
   // src1 = 18446744073709551615;
   // src2 = 434345343551615.00000000000;
@@ -4379,14 +4365,14 @@ START_TEST(s21_greater_or_equal_14) {
   src2.bits[1] = 0b11010011010011111110100110011101;
   src2.bits[2] = 0b00000000001000111110110110011110;
   src2.bits[3] = 0b00000000000010110000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_15) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_15) {
+  decimal src1, src2;
   int origin;
   // src1 = 18446744073709551615.0;
   // src2 = 965453154;
@@ -4398,14 +4384,14 @@ START_TEST(s21_greater_or_equal_15) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_16) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_16) {
+  decimal src1, src2;
   int origin;
   // src1 = -796214545.3526545454564545456;
   // src2 = -545454512454545.35265454545645;
@@ -4417,14 +4403,14 @@ START_TEST(s21_greater_or_equal_16) {
   src2.bits[1] = 0b11111001111010000010010110101101;
   src2.bits[2] = 0b10110000001111101111000010010100;
   src2.bits[3] = 0b10000000000011100000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_17) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_17) {
+  decimal src1, src2;
   int origin;
   // src1 = -545454512454545.35265454545645;
   // src2 = -5.352654545456454545645464;
@@ -4436,14 +4422,14 @@ START_TEST(s21_greater_or_equal_17) {
   src2.bits[1] = 0b11111011111111011000100101101101;
   src2.bits[2] = 0b00000000000001000110110101110111;
   src2.bits[3] = 0b10000000000110000000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_18) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_18) {
+  decimal src1, src2;
   int origin;
   // src1 = -7961327845421.843434341378545;
   // src2 = 7961327.845421879754123131254;
@@ -4455,14 +4441,14 @@ START_TEST(s21_greater_or_equal_18) {
   src2.bits[1] = 0b01001011001101011010000111011001;
   src2.bits[2] = 0b00011001101110010111010010111111;
   src2.bits[3] = 0b00000000000101010000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_19) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_19) {
+  decimal src1, src2;
   int origin;
   // src1 = 12345677.987654345678987654346;
   // src2 = 12345677.987654000000000000000;
@@ -4474,14 +4460,14 @@ START_TEST(s21_greater_or_equal_19) {
   src2.bits[1] = 0b11000000010001001001101110001101;
   src2.bits[2] = 0b00100111111001000001101100000000;
   src2.bits[3] = 0b00000000000101010000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_20) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_20) {
+  decimal src1, src2;
   int origin;
   // src1 = 12345677.987654345678987654346;
   // src2 = 145752736456.9876545678987653;
@@ -4493,14 +4479,14 @@ START_TEST(s21_greater_or_equal_20) {
   src2.bits[1] = 0b11000001100101010111000111101011;
   src2.bits[2] = 0b00000100101101011010001101101100;
   src2.bits[3] = 0b00000000000100000000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_21) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_21) {
+  decimal src1, src2;
   int origin;
   // src1 = 87654323456.98765456789876530;
   // src2 = -87654323456.98765456789876531;
@@ -4512,14 +4498,14 @@ START_TEST(s21_greater_or_equal_21) {
   src2.bits[1] = 0b10011001010111000101110110000000;
   src2.bits[2] = 0b00011100010100101001100001111111;
   src2.bits[3] = 0b10000000000100010000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_22) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_22) {
+  decimal src1, src2;
   int origin;
   // src1 = -854764561465456456.9876545679;
   // src2 = -87654323456.98765456789876530;
@@ -4531,14 +4517,14 @@ START_TEST(s21_greater_or_equal_22) {
   src2.bits[1] = 0b10011001010111000101110110000000;
   src2.bits[2] = 0b00011100010100101001100001111111;
   src2.bits[3] = 0b10000000000100010000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_23) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_23) {
+  decimal src1, src2;
   int origin;
   // src1 = 0.0;
   // src2 = 0.69;
@@ -4550,14 +4536,14 @@ START_TEST(s21_greater_or_equal_23) {
   src2.bits[1] = 0b00000000000000000000000000000000;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000100000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_24) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_24) {
+  decimal src1, src2;
   int origin;
   // src1 = -69.1234567;
   // src2 = -69.12345670000000;
@@ -4569,14 +4555,14 @@ START_TEST(s21_greater_or_equal_24) {
   src2.bits[1] = 0b00000000000110001000111010111101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000011100000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_25) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_25) {
+  decimal src1, src2;
   int origin;
   // src1 = 13436577854.000000000000;
   // src2 = 13436577854;
@@ -4588,14 +4574,14 @@ START_TEST(s21_greater_or_equal_25) {
   src2.bits[1] = 0b00000000000000000000000000000011;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_26) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_26) {
+  decimal src1, src2;
   int origin;
   // src1 = 79228162514264337593543950335;
   // src2 = 79228162514264337593543950335;
@@ -4607,14 +4593,14 @@ START_TEST(s21_greater_or_equal_26) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b11111111111111111111111111111111;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_27) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_27) {
+  decimal src1, src2;
   int origin;
   // src1 = 79228162514264337593543950335;
   // src2 = -79228162514264337593543950335;
@@ -4626,14 +4612,14 @@ START_TEST(s21_greater_or_equal_27) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b11111111111111111111111111111111;
   src2.bits[3] = 0b10000000000000000000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_28) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_28) {
+  decimal src1, src2;
   int origin;
   // src1 = 665464545;
   // src2 = 8798232189789785;
@@ -4645,14 +4631,14 @@ START_TEST(s21_greater_or_equal_28) {
   src2.bits[1] = 0b00000000000111110100000111110010;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b00000000000000000000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_29) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_29) {
+  decimal src1, src2;
   int origin;
   // src1 = 2.7986531268974139743;
   // src2 = 2.7986531268974139743;
@@ -4664,14 +4650,14 @@ START_TEST(s21_greater_or_equal_29) {
   src2.bits[1] = 0b10000100011001000010000111101000;
   src2.bits[2] = 0b00000000000000000000000000000001;
   src2.bits[3] = 0b00000000000100110000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_30) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_30) {
+  decimal src1, src2;
   int origin;
   // src1 = -2156878451.8547640000000000;
   // src2 = -2156878451.854764;
@@ -4683,14 +4669,14 @@ START_TEST(s21_greater_or_equal_30) {
   src2.bits[1] = 0b00000000000001111010100110101011;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000001100000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_31) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_31) {
+  decimal src1, src2;
   int origin;
   // src1 = 0.5456465465486476846545465485;
   // src2 = 45645405.456456345684654546548;
@@ -4702,14 +4688,14 @@ START_TEST(s21_greater_or_equal_31) {
   src2.bits[1] = 0b11111110010110110111101101110010;
   src2.bits[2] = 0b10010011011111001111111010010011;
   src2.bits[3] = 0b00000000000101010000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_32) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_32) {
+  decimal src1, src2;
   int origin;
   // src1 = -776890.75455454213415678965898;
   // src2 = -7.7545545454546589781677545545;
@@ -4721,14 +4707,14 @@ START_TEST(s21_greater_or_equal_32) {
   src2.bits[1] = 0b01101011011011011010110110010010;
   src2.bits[2] = 0b11111010100100000010101111111010;
   src2.bits[3] = 0b10000000000111000000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_33) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_33) {
+  decimal src1, src2;
   int origin;
   // src1 = -732123534337593543950335.12;
   // src2 = -792281625.14264337593543950335;
@@ -4740,14 +4726,14 @@ START_TEST(s21_greater_or_equal_33) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b11111111111111111111111111111111;
   src2.bits[3] = 0b10000000000101000000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_34) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_34) {
+  decimal src1, src2;
   int origin;
   // src1 = 675432788976.5424354657687;
   // src2 = 67543278.89765424354657687;
@@ -4759,14 +4745,14 @@ START_TEST(s21_greater_or_equal_34) {
   src2.bits[1] = 0b11011001001111010001001011000110;
   src2.bits[2] = 0b00000000000001011001011001001000;
   src2.bits[3] = 0b00000000000100010000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_35) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_35) {
+  decimal src1, src2;
   int origin;
   // src1 = -579895323215489956.67897455465;
   // src2 = -579895323215489956.67897455465;
@@ -4778,14 +4764,14 @@ START_TEST(s21_greater_or_equal_35) {
   src2.bits[1] = 0b00111000110110101110001010110100;
   src2.bits[2] = 0b10111011010111111101000100011110;
   src2.bits[3] = 0b10000000000010110000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_36) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_36) {
+  decimal src1, src2;
   int origin;
   // src1 = 123523543453453453.0;
   // src2 = 1844674407370955161.50;
@@ -4797,14 +4783,14 @@ START_TEST(s21_greater_or_equal_36) {
   src2.bits[1] = 0b11111111111111111111111111111111;
   src2.bits[2] = 0b00000000000000000000000000001001;
   src2.bits[3] = 0b00000000000000100000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_37) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_37) {
+  decimal src1, src2;
   int origin;
   // src1 = 31231232456315.0;
   // src2 = 44073709551615.00000000;
@@ -4816,14 +4802,14 @@ START_TEST(s21_greater_or_equal_37) {
   src2.bits[1] = 0b11101100100011110001010001110111;
   src2.bits[2] = 0b00000000000000000000000011101110;
   src2.bits[3] = 0b00000000000010000000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_38) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_38) {
+  decimal src1, src2;
   int origin;
   // src1 = 78987543557678337.5935439503;
   // src2 = 228162514264337.59354395030000;
@@ -4835,14 +4821,14 @@ START_TEST(s21_greater_or_equal_38) {
   src2.bits[1] = 0b00111001110010101010100001111000;
   src2.bits[2] = 0b01001001101110010010100100101100;
   src2.bits[3] = 0b00000000000011100000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_39) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_39) {
+  decimal src1, src2;
   int origin;
   // src1 = -754567488438.97816770;
   // src2 = -754554545454658.9781677;
@@ -4854,14 +4840,14 @@ START_TEST(s21_greater_or_equal_39) {
   src2.bits[1] = 0b00001011011110101000110011100101;
   src2.bits[2] = 0b00000000000000000000000110011001;
   src2.bits[3] = 0b10000000000001110000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 1;
   ck_assert_int_eq(origin, result);
 }
 END_TEST
 
-START_TEST(s21_greater_or_equal_40) {
-  s21_decimal src1, src2;
+START_TEST(greater_or_equal_40) {
+  decimal src1, src2;
   int origin;
   // src1 = -2.514475768684753643;
   // src2 = -2.514264337593542;
@@ -4873,7 +4859,7 @@ START_TEST(s21_greater_or_equal_40) {
   src2.bits[1] = 0b00000000000010001110111010110101;
   src2.bits[2] = 0b00000000000000000000000000000000;
   src2.bits[3] = 0b10000000000011110000000000000000;
-  int result = s21_is_greater_or_equal(src1, src2);
+  int result = is_greater_or_equal(src1, src2);
   origin = 0;
   ck_assert_int_eq(origin, result);
 }
@@ -4883,286 +4869,284 @@ void srunner_add_comparsion_tests(SRunner *sr) {
   Suite *s1 = suite_create("Add");
   TCase *tc1_1 = tcase_create("Add");
   suite_add_tcase(s1, tc1_1);
-  tcase_add_test(tc1_1, s21_equal_1);
-  tcase_add_test(tc1_1, s21_equal_2);
-  tcase_add_test(tc1_1, s21_equal_3_fraction);
-  tcase_add_test(tc1_1, s21_equal_4_sign);
-  tcase_add_test(tc1_1, s21_equal_5_sign);
-  tcase_add_test(tc1_1, s21_equal_6);
-  tcase_add_test(tc1_1, s21_equal_7);
-  tcase_add_test(tc1_1, s21_equal_8);
-  // tcase_add_test(tc1_1, s21_equal_9_ss);
-  tcase_add_test(tc1_1, s21_equal_10);
-  tcase_add_test(tc1_1, s21_equal_11_zero);
-  tcase_add_test(tc1_1, s21_equal_12_value);
-  tcase_add_test(tc1_1, s21_equal_13_value);
-  tcase_add_test(tc1_1, s21_equal_14_value);
-  tcase_add_test(tc1_1, s21_equal_15);
-  tcase_add_test(tc1_1, s21_equal_16);
-  tcase_add_test(tc1_1, s21_equal_17);
-  tcase_add_test(tc1_1, s21_equal_18);
-  tcase_add_test(tc1_1, s21_equal_19);
-  tcase_add_test(tc1_1, s21_equal_20);
-  tcase_add_test(tc1_1, s21_equal_21);
-  tcase_add_test(tc1_1, s21_equal_22);
-  tcase_add_test(tc1_1, s21_equal_23);
-  tcase_add_test(tc1_1, s21_equal_24);
-  tcase_add_test(tc1_1, s21_equal_25);
-  tcase_add_test(tc1_1, s21_equal_26);
-  tcase_add_test(tc1_1, s21_equal_27);
-  tcase_add_test(tc1_1, s21_equal_28);
-  tcase_add_test(tc1_1, s21_equal_29);
-  tcase_add_test(tc1_1, s21_equal_30);
-  tcase_add_test(tc1_1, s21_equal_31);
-  tcase_add_test(tc1_1, s21_equal_32);
-  tcase_add_test(tc1_1, s21_equal_33);
-  tcase_add_test(tc1_1, s21_equal_34);
-  tcase_add_test(tc1_1, s21_equal_35);
-  tcase_add_test(tc1_1, s21_equal_36);
-  tcase_add_test(tc1_1, s21_equal_37);
-  tcase_add_test(tc1_1, s21_equal_38);
-  tcase_add_test(tc1_1, s21_equal_39);
-  tcase_add_test(tc1_1, s21_equal_40);
-  tcase_add_test(tc1_1, s21_equal_41);
-  tcase_add_test(tc1_1, s21_equal_42);
-  tcase_add_test(tc1_1, s21_equal_43);
-  tcase_add_test(tc1_1, s21_equal_44);
-  tcase_add_test(tc1_1, s21_equal_45);
-  tcase_add_test(tc1_1, s21_equal_46);
-  tcase_add_test(tc1_1, s21_equal_47);
-  tcase_add_test(tc1_1, s21_equal_48);
-  tcase_add_test(tc1_1, s21_equal_49);
-  tcase_add_test(tc1_1, s21_equal_50);
-  tcase_add_test(tc1_1, s21_equal_51);
-  tcase_add_test(tc1_1, s21_equal_52);
-  tcase_add_test(tc1_1, s21_equal_53);
-  tcase_add_test(tc1_1, s21_equal_54);
-  tcase_add_test(tc1_1, s21_not_equal_1_1);
-  tcase_add_test(tc1_1, s21_not_equal_2_1);
-  tcase_add_test(tc1_1, s21_not_equal_3_fraction_1);
-  tcase_add_test(tc1_1, s21_not_equal_4_sign_1);
-  tcase_add_test(tc1_1, s21_not_equal_5_sign_1);
-  tcase_add_test(tc1_1, s21_not_equal_6_1);
-  tcase_add_test(tc1_1, s21_not_equal_7_1);
-  tcase_add_test(tc1_1, s21_not_equal_8_1);
-  // tcase_add_test(tc1_1, s21_not_equal_9_ss_1);
-  tcase_add_test(tc1_1, s21_not_equal_10_1);
-  tcase_add_test(tc1_1, s21_not_equal_11_zero_1);
-  tcase_add_test(tc1_1, s21_not_equal_12_value_1);
-  tcase_add_test(tc1_1, s21_not_equal_13_value_1);
-  tcase_add_test(tc1_1, s21_not_equal_14_value_1);
-  tcase_add_test(tc1_1, s21_not_equal_1);
-  tcase_add_test(tc1_1, s21_not_equal_2);
-  tcase_add_test(tc1_1, s21_not_equal_3);
-  tcase_add_test(tc1_1, s21_not_equal_4);
-  tcase_add_test(tc1_1, s21_not_equal_5);
-  tcase_add_test(tc1_1, s21_not_equal_6);
-  tcase_add_test(tc1_1, s21_not_equal_7);
-  tcase_add_test(tc1_1, s21_not_equal_8);
-  tcase_add_test(tc1_1, s21_not_equal_9);
-  tcase_add_test(tc1_1, s21_not_equal_10);
-  tcase_add_test(tc1_1, s21_not_equal_11);
-  tcase_add_test(tc1_1, s21_not_equal_12);
-  tcase_add_test(tc1_1, s21_not_equal_13);
-  tcase_add_test(tc1_1, s21_not_equal_14);
-  tcase_add_test(tc1_1, s21_not_equal_15);
-  tcase_add_test(tc1_1, s21_not_equal_16);
-  tcase_add_test(tc1_1, s21_not_equal_17);
-  tcase_add_test(tc1_1, s21_not_equal_18);
-  tcase_add_test(tc1_1, s21_not_equal_19);
-  tcase_add_test(tc1_1, s21_not_equal_20);
-  tcase_add_test(tc1_1, s21_not_equal_21);
-  tcase_add_test(tc1_1, s21_not_equal_22);
-  tcase_add_test(tc1_1, s21_not_equal_23);
-  tcase_add_test(tc1_1, s21_not_equal_24);
-  tcase_add_test(tc1_1, s21_not_equal_25);
-  tcase_add_test(tc1_1, s21_not_equal_26);
-  tcase_add_test(tc1_1, s21_not_equal_27);
-  tcase_add_test(tc1_1, s21_not_equal_28);
-  tcase_add_test(tc1_1, s21_not_equal_29);
-  tcase_add_test(tc1_1, s21_not_equal_30);
-  tcase_add_test(tc1_1, s21_not_equal_31);
-  tcase_add_test(tc1_1, s21_not_equal_32);
-  tcase_add_test(tc1_1, s21_not_equal_33);
-  tcase_add_test(tc1_1, s21_not_equal_34);
-  tcase_add_test(tc1_1, s21_not_equal_35);
-  tcase_add_test(tc1_1, s21_not_equal_36);
-  tcase_add_test(tc1_1, s21_not_equal_37);
-  tcase_add_test(tc1_1, s21_not_equal_38);
-  tcase_add_test(tc1_1, s21_not_equal_39);
-  tcase_add_test(tc1_1, s21_not_equal_40);
-  tcase_add_test(tc1_1, s21_less_1);
-  tcase_add_test(tc1_1, s21_less_2);
-  tcase_add_test(tc1_1, s21_less_3_zero);
-  tcase_add_test(tc1_1, s21_less_4_zero);
-  tcase_add_test(tc1_1, s21_less_5_len_int_part);
-  tcase_add_test(tc1_1, s21_less_6_len_int_part_positive);
-  tcase_add_test(tc1_1, s21_less_7_len_int_part_negative);
-  tcase_add_test(tc1_1, s21_less_8_value_int_part_positive);
-  tcase_add_test(tc1_1, s21_less_9_value_fract_part_positive);
-  tcase_add_test(tc1_1, s21_less_10_max_int_positive);
-  tcase_add_test(tc1_1, s21_less_11_max_int_negative);
-  tcase_add_test(tc1_1, s21_less_12);
-  tcase_add_test(tc1_1, s21_less_13);
-  tcase_add_test(tc1_1, s21_less_14);
-  tcase_add_test(tc1_1, s21_less_15);
-  tcase_add_test(tc1_1, s21_less_16);
-  tcase_add_test(tc1_1, s21_less_17);
-  tcase_add_test(tc1_1, s21_less_18);
-  tcase_add_test(tc1_1, s21_less_19);
-  tcase_add_test(tc1_1, s21_less_20);
-  tcase_add_test(tc1_1, s21_less_21);
-  tcase_add_test(tc1_1, s21_less_22);
-  tcase_add_test(tc1_1, s21_less_23);
-  tcase_add_test(tc1_1, s21_less_24);
-  tcase_add_test(tc1_1, s21_less_25);
-  tcase_add_test(tc1_1, s21_less_26);
-  tcase_add_test(tc1_1, s21_less_27);
-  tcase_add_test(tc1_1, s21_less_28);
-  tcase_add_test(tc1_1, s21_less_29);
-  tcase_add_test(tc1_1, s21_less_30);
-  tcase_add_test(tc1_1, s21_less_31);
-  tcase_add_test(tc1_1, s21_less_32);
-  tcase_add_test(tc1_1, s21_less_33);
-  tcase_add_test(tc1_1, s21_less_34);
-  tcase_add_test(tc1_1, s21_less_35);
-  tcase_add_test(tc1_1, s21_less_36);
-  tcase_add_test(tc1_1, s21_less_37);
-  tcase_add_test(tc1_1, s21_less_38);
-  tcase_add_test(tc1_1, s21_less_39);
-  tcase_add_test(tc1_1, s21_less_40);
-  tcase_add_test(tc1_1, s21_less_41);
-  tcase_add_test(tc1_1, s21_less_42);
-  tcase_add_test(tc1_1, s21_less_43);
-  tcase_add_test(tc1_1, s21_less_44);
-  tcase_add_test(tc1_1, s21_less_45);
-  tcase_add_test(tc1_1, s21_less_46);
-  tcase_add_test(tc1_1, s21_less_47);
-  tcase_add_test(tc1_1, s21_less_48);
-  tcase_add_test(tc1_1, s21_less_49);
-  tcase_add_test(tc1_1, s21_less_50);
-  tcase_add_test(tc1_1, s21_less_51);
-  tcase_add_test(tc1_1, s21_less_52);
-  tcase_add_test(tc1_1, s21_less_or_equal_1);
-  tcase_add_test(tc1_1, s21_less_or_equal_2);
-  tcase_add_test(tc1_1, s21_less_or_equal_3);
-  tcase_add_test(tc1_1, s21_less_or_equal_4);
-  tcase_add_test(tc1_1, s21_less_or_equal_5);
-  tcase_add_test(tc1_1, s21_less_or_equal_6);
-  tcase_add_test(tc1_1, s21_less_or_equal_7);
-  tcase_add_test(tc1_1, s21_less_or_equal_8);
-  tcase_add_test(tc1_1, s21_less_or_equal_9);
-  tcase_add_test(tc1_1, s21_less_or_equal_10);
-  tcase_add_test(tc1_1, s21_less_or_equal_11);
-  tcase_add_test(tc1_1, s21_less_or_equal_12);
-  tcase_add_test(tc1_1, s21_less_or_equal_13);
-  tcase_add_test(tc1_1, s21_less_or_equal_14);
-  tcase_add_test(tc1_1, s21_less_or_equal_15);
-  tcase_add_test(tc1_1, s21_less_or_equal_16);
-  tcase_add_test(tc1_1, s21_less_or_equal_17);
-  tcase_add_test(tc1_1, s21_less_or_equal_18);
-  tcase_add_test(tc1_1, s21_less_or_equal_19);
-  tcase_add_test(tc1_1, s21_less_or_equal_20);
-  tcase_add_test(tc1_1, s21_less_or_equal_21);
-  tcase_add_test(tc1_1, s21_less_or_equal_22);
-  tcase_add_test(tc1_1, s21_less_or_equal_23);
-  tcase_add_test(tc1_1, s21_less_or_equal_24);
-  tcase_add_test(tc1_1, s21_less_or_equal_25);
-  tcase_add_test(tc1_1, s21_less_or_equal_26);
-  tcase_add_test(tc1_1, s21_less_or_equal_27);
-  tcase_add_test(tc1_1, s21_less_or_equal_28);
-  tcase_add_test(tc1_1, s21_less_or_equal_29);
-  tcase_add_test(tc1_1, s21_less_or_equal_30);
-  tcase_add_test(tc1_1, s21_less_or_equal_31);
-  tcase_add_test(tc1_1, s21_less_or_equal_32);
-  tcase_add_test(tc1_1, s21_less_or_equal_33);
-  tcase_add_test(tc1_1, s21_less_or_equal_34);
-  tcase_add_test(tc1_1, s21_less_or_equal_35);
-  tcase_add_test(tc1_1, s21_less_or_equal_36);
-  tcase_add_test(tc1_1, s21_less_or_equal_37);
-  tcase_add_test(tc1_1, s21_less_or_equal_38);
-  tcase_add_test(tc1_1, s21_less_or_equal_39);
-  tcase_add_test(tc1_1, s21_less_or_equal_40);
-  tcase_add_test(tc1_1, s21_greater_1);
-  tcase_add_test(tc1_1, s21_greater_2);
-  tcase_add_test(tc1_1, s21_greater_3);
-  tcase_add_test(tc1_1, s21_greater_4);
-  tcase_add_test(tc1_1, s21_greater_5);
-  tcase_add_test(tc1_1, s21_greater_6);
-  tcase_add_test(tc1_1, s21_greater_7);
-  tcase_add_test(tc1_1, s21_greater_8);
-  tcase_add_test(tc1_1, s21_greater_9);
-  tcase_add_test(tc1_1, s21_greater_10);
-  tcase_add_test(tc1_1, s21_greater_11);
-  tcase_add_test(tc1_1, s21_greater_12);
-  tcase_add_test(tc1_1, s21_greater_13);
-  tcase_add_test(tc1_1, s21_greater_14);
-  tcase_add_test(tc1_1, s21_greater_15);
-  tcase_add_test(tc1_1, s21_greater_16);
-  tcase_add_test(tc1_1, s21_greater_17);
-  tcase_add_test(tc1_1, s21_greater_18);
-  tcase_add_test(tc1_1, s21_greater_19);
-  tcase_add_test(tc1_1, s21_greater_20);
-  tcase_add_test(tc1_1, s21_greater_21);
-  tcase_add_test(tc1_1, s21_greater_22);
-  tcase_add_test(tc1_1, s21_greater_23);
-  tcase_add_test(tc1_1, s21_greater_24);
-  tcase_add_test(tc1_1, s21_greater_25);
-  tcase_add_test(tc1_1, s21_greater_26);
-  tcase_add_test(tc1_1, s21_greater_27);
-  tcase_add_test(tc1_1, s21_greater_28);
-  tcase_add_test(tc1_1, s21_greater_29);
-  tcase_add_test(tc1_1, s21_greater_30);
-  tcase_add_test(tc1_1, s21_greater_31);
-  tcase_add_test(tc1_1, s21_greater_32);
-  tcase_add_test(tc1_1, s21_greater_33);
-  tcase_add_test(tc1_1, s21_greater_34);
-  tcase_add_test(tc1_1, s21_greater_35);
-  tcase_add_test(tc1_1, s21_greater_36);
-  tcase_add_test(tc1_1, s21_greater_37);
-  tcase_add_test(tc1_1, s21_greater_38);
-  tcase_add_test(tc1_1, s21_greater_39);
-  tcase_add_test(tc1_1, s21_greater_40);
-  tcase_add_test(tc1_1, s21_greater_or_equal_1);
-  tcase_add_test(tc1_1, s21_greater_or_equal_2);
-  tcase_add_test(tc1_1, s21_greater_or_equal_3);
-  tcase_add_test(tc1_1, s21_greater_or_equal_4);
-  tcase_add_test(tc1_1, s21_greater_or_equal_5);
-  tcase_add_test(tc1_1, s21_greater_or_equal_6);
-  tcase_add_test(tc1_1, s21_greater_or_equal_7);
-  tcase_add_test(tc1_1, s21_greater_or_equal_8);
-  tcase_add_test(tc1_1, s21_greater_or_equal_9);
-  tcase_add_test(tc1_1, s21_greater_or_equal_10);
-  tcase_add_test(tc1_1, s21_greater_or_equal_11);
-  tcase_add_test(tc1_1, s21_greater_or_equal_12);
-  tcase_add_test(tc1_1, s21_greater_or_equal_13);
-  tcase_add_test(tc1_1, s21_greater_or_equal_14);
-  tcase_add_test(tc1_1, s21_greater_or_equal_15);
-  tcase_add_test(tc1_1, s21_greater_or_equal_16);
-  tcase_add_test(tc1_1, s21_greater_or_equal_17);
-  tcase_add_test(tc1_1, s21_greater_or_equal_18);
-  tcase_add_test(tc1_1, s21_greater_or_equal_19);
-  tcase_add_test(tc1_1, s21_greater_or_equal_20);
-  tcase_add_test(tc1_1, s21_greater_or_equal_21);
-  tcase_add_test(tc1_1, s21_greater_or_equal_22);
-  tcase_add_test(tc1_1, s21_greater_or_equal_23);
-  tcase_add_test(tc1_1, s21_greater_or_equal_24);
-  tcase_add_test(tc1_1, s21_greater_or_equal_25);
-  tcase_add_test(tc1_1, s21_greater_or_equal_26);
-  tcase_add_test(tc1_1, s21_greater_or_equal_27);
-  tcase_add_test(tc1_1, s21_greater_or_equal_28);
-  tcase_add_test(tc1_1, s21_greater_or_equal_29);
-  tcase_add_test(tc1_1, s21_greater_or_equal_30);
-  tcase_add_test(tc1_1, s21_greater_or_equal_31);
-  tcase_add_test(tc1_1, s21_greater_or_equal_32);
-  tcase_add_test(tc1_1, s21_greater_or_equal_33);
-  tcase_add_test(tc1_1, s21_greater_or_equal_34);
-  tcase_add_test(tc1_1, s21_greater_or_equal_35);
-  tcase_add_test(tc1_1, s21_greater_or_equal_36);
-  tcase_add_test(tc1_1, s21_greater_or_equal_37);
-  tcase_add_test(tc1_1, s21_greater_or_equal_38);
-  tcase_add_test(tc1_1, s21_greater_or_equal_39);
-  tcase_add_test(tc1_1, s21_greater_or_equal_40);
+  tcase_add_test(tc1_1, equal_1);
+  tcase_add_test(tc1_1, equal_2);
+  tcase_add_test(tc1_1, equal_3_fraction);
+  tcase_add_test(tc1_1, equal_4_sign);
+  tcase_add_test(tc1_1, equal_5_sign);
+  tcase_add_test(tc1_1, equal_6);
+  tcase_add_test(tc1_1, equal_7);
+  tcase_add_test(tc1_1, equal_8);
+  tcase_add_test(tc1_1, equal_10);
+  tcase_add_test(tc1_1, equal_11_zero);
+  tcase_add_test(tc1_1, equal_12_value);
+  tcase_add_test(tc1_1, equal_13_value);
+  tcase_add_test(tc1_1, equal_14_value);
+  tcase_add_test(tc1_1, equal_15);
+  tcase_add_test(tc1_1, equal_16);
+  tcase_add_test(tc1_1, equal_17);
+  tcase_add_test(tc1_1, equal_18);
+  tcase_add_test(tc1_1, equal_19);
+  tcase_add_test(tc1_1, equal_20);
+  tcase_add_test(tc1_1, equal_21);
+  tcase_add_test(tc1_1, equal_22);
+  tcase_add_test(tc1_1, equal_23);
+  tcase_add_test(tc1_1, equal_24);
+  tcase_add_test(tc1_1, equal_25);
+  tcase_add_test(tc1_1, equal_26);
+  tcase_add_test(tc1_1, equal_27);
+  tcase_add_test(tc1_1, equal_28);
+  tcase_add_test(tc1_1, equal_29);
+  tcase_add_test(tc1_1, equal_30);
+  tcase_add_test(tc1_1, equal_31);
+  tcase_add_test(tc1_1, equal_32);
+  tcase_add_test(tc1_1, equal_33);
+  tcase_add_test(tc1_1, equal_34);
+  tcase_add_test(tc1_1, equal_35);
+  tcase_add_test(tc1_1, equal_36);
+  tcase_add_test(tc1_1, equal_37);
+  tcase_add_test(tc1_1, equal_38);
+  tcase_add_test(tc1_1, equal_39);
+  tcase_add_test(tc1_1, equal_40);
+  tcase_add_test(tc1_1, equal_41);
+  tcase_add_test(tc1_1, equal_42);
+  tcase_add_test(tc1_1, equal_43);
+  tcase_add_test(tc1_1, equal_44);
+  tcase_add_test(tc1_1, equal_45);
+  tcase_add_test(tc1_1, equal_46);
+  tcase_add_test(tc1_1, equal_47);
+  tcase_add_test(tc1_1, equal_48);
+  tcase_add_test(tc1_1, equal_49);
+  tcase_add_test(tc1_1, equal_50);
+  tcase_add_test(tc1_1, equal_51);
+  tcase_add_test(tc1_1, equal_52);
+  tcase_add_test(tc1_1, equal_53);
+  tcase_add_test(tc1_1, equal_54);
+  tcase_add_test(tc1_1, not_equal_1_1);
+  tcase_add_test(tc1_1, not_equal_2_1);
+  tcase_add_test(tc1_1, not_equal_3_fraction_1);
+  tcase_add_test(tc1_1, not_equal_4_sign_1);
+  tcase_add_test(tc1_1, not_equal_5_sign_1);
+  tcase_add_test(tc1_1, not_equal_6_1);
+  tcase_add_test(tc1_1, not_equal_7_1);
+  tcase_add_test(tc1_1, not_equal_8_1);
+  tcase_add_test(tc1_1, not_equal_10_1);
+  tcase_add_test(tc1_1, not_equal_11_zero_1);
+  tcase_add_test(tc1_1, not_equal_12_value_1);
+  tcase_add_test(tc1_1, not_equal_13_value_1);
+  tcase_add_test(tc1_1, not_equal_14_value_1);
+  tcase_add_test(tc1_1, not_equal_1);
+  tcase_add_test(tc1_1, not_equal_2);
+  tcase_add_test(tc1_1, not_equal_3);
+  tcase_add_test(tc1_1, not_equal_4);
+  tcase_add_test(tc1_1, not_equal_5);
+  tcase_add_test(tc1_1, not_equal_6);
+  tcase_add_test(tc1_1, not_equal_7);
+  tcase_add_test(tc1_1, not_equal_8);
+  tcase_add_test(tc1_1, not_equal_9);
+  tcase_add_test(tc1_1, not_equal_10);
+  tcase_add_test(tc1_1, not_equal_11);
+  tcase_add_test(tc1_1, not_equal_12);
+  tcase_add_test(tc1_1, not_equal_13);
+  tcase_add_test(tc1_1, not_equal_14);
+  tcase_add_test(tc1_1, not_equal_15);
+  tcase_add_test(tc1_1, not_equal_16);
+  tcase_add_test(tc1_1, not_equal_17);
+  tcase_add_test(tc1_1, not_equal_18);
+  tcase_add_test(tc1_1, not_equal_19);
+  tcase_add_test(tc1_1, not_equal_20);
+  tcase_add_test(tc1_1, not_equal_21);
+  tcase_add_test(tc1_1, not_equal_22);
+  tcase_add_test(tc1_1, not_equal_23);
+  tcase_add_test(tc1_1, not_equal_24);
+  tcase_add_test(tc1_1, not_equal_25);
+  tcase_add_test(tc1_1, not_equal_26);
+  tcase_add_test(tc1_1, not_equal_27);
+  tcase_add_test(tc1_1, not_equal_28);
+  tcase_add_test(tc1_1, not_equal_29);
+  tcase_add_test(tc1_1, not_equal_30);
+  tcase_add_test(tc1_1, not_equal_31);
+  tcase_add_test(tc1_1, not_equal_32);
+  tcase_add_test(tc1_1, not_equal_33);
+  tcase_add_test(tc1_1, not_equal_34);
+  tcase_add_test(tc1_1, not_equal_35);
+  tcase_add_test(tc1_1, not_equal_36);
+  tcase_add_test(tc1_1, not_equal_37);
+  tcase_add_test(tc1_1, not_equal_38);
+  tcase_add_test(tc1_1, not_equal_39);
+  tcase_add_test(tc1_1, not_equal_40);
+  tcase_add_test(tc1_1, less_1);
+  tcase_add_test(tc1_1, less_2);
+  tcase_add_test(tc1_1, less_3_zero);
+  tcase_add_test(tc1_1, less_4_zero);
+  tcase_add_test(tc1_1, less_5_len_int_part);
+  tcase_add_test(tc1_1, less_6_len_int_part_positive);
+  tcase_add_test(tc1_1, less_7_len_int_part_negative);
+  tcase_add_test(tc1_1, less_8_value_int_part_positive);
+  tcase_add_test(tc1_1, less_9_value_fract_part_positive);
+  tcase_add_test(tc1_1, less_10_max_int_positive);
+  tcase_add_test(tc1_1, less_11_max_int_negative);
+  tcase_add_test(tc1_1, less_12);
+  tcase_add_test(tc1_1, less_13);
+  tcase_add_test(tc1_1, less_14);
+  tcase_add_test(tc1_1, less_15);
+  tcase_add_test(tc1_1, less_16);
+  tcase_add_test(tc1_1, less_17);
+  tcase_add_test(tc1_1, less_18);
+  tcase_add_test(tc1_1, less_19);
+  tcase_add_test(tc1_1, less_20);
+  tcase_add_test(tc1_1, less_21);
+  tcase_add_test(tc1_1, less_22);
+  tcase_add_test(tc1_1, less_23);
+  tcase_add_test(tc1_1, less_24);
+  tcase_add_test(tc1_1, less_25);
+  tcase_add_test(tc1_1, less_26);
+  tcase_add_test(tc1_1, less_27);
+  tcase_add_test(tc1_1, less_28);
+  tcase_add_test(tc1_1, less_29);
+  tcase_add_test(tc1_1, less_30);
+  tcase_add_test(tc1_1, less_31);
+  tcase_add_test(tc1_1, less_32);
+  tcase_add_test(tc1_1, less_33);
+  tcase_add_test(tc1_1, less_34);
+  tcase_add_test(tc1_1, less_35);
+  tcase_add_test(tc1_1, less_36);
+  tcase_add_test(tc1_1, less_37);
+  tcase_add_test(tc1_1, less_38);
+  tcase_add_test(tc1_1, less_39);
+  tcase_add_test(tc1_1, less_40);
+  tcase_add_test(tc1_1, less_41);
+  tcase_add_test(tc1_1, less_42);
+  tcase_add_test(tc1_1, less_43);
+  tcase_add_test(tc1_1, less_44);
+  tcase_add_test(tc1_1, less_45);
+  tcase_add_test(tc1_1, less_46);
+  tcase_add_test(tc1_1, less_47);
+  tcase_add_test(tc1_1, less_48);
+  tcase_add_test(tc1_1, less_49);
+  tcase_add_test(tc1_1, less_50);
+  tcase_add_test(tc1_1, less_51);
+  tcase_add_test(tc1_1, less_52);
+  tcase_add_test(tc1_1, less_or_equal_1);
+  tcase_add_test(tc1_1, less_or_equal_2);
+  tcase_add_test(tc1_1, less_or_equal_3);
+  tcase_add_test(tc1_1, less_or_equal_4);
+  tcase_add_test(tc1_1, less_or_equal_5);
+  tcase_add_test(tc1_1, less_or_equal_6);
+  tcase_add_test(tc1_1, less_or_equal_7);
+  tcase_add_test(tc1_1, less_or_equal_8);
+  tcase_add_test(tc1_1, less_or_equal_9);
+  tcase_add_test(tc1_1, less_or_equal_10);
+  tcase_add_test(tc1_1, less_or_equal_11);
+  tcase_add_test(tc1_1, less_or_equal_12);
+  tcase_add_test(tc1_1, less_or_equal_13);
+  tcase_add_test(tc1_1, less_or_equal_14);
+  tcase_add_test(tc1_1, less_or_equal_15);
+  tcase_add_test(tc1_1, less_or_equal_16);
+  tcase_add_test(tc1_1, less_or_equal_17);
+  tcase_add_test(tc1_1, less_or_equal_18);
+  tcase_add_test(tc1_1, less_or_equal_19);
+  tcase_add_test(tc1_1, less_or_equal_20);
+  tcase_add_test(tc1_1, less_or_equal_21);
+  tcase_add_test(tc1_1, less_or_equal_22);
+  tcase_add_test(tc1_1, less_or_equal_23);
+  tcase_add_test(tc1_1, less_or_equal_24);
+  tcase_add_test(tc1_1, less_or_equal_25);
+  tcase_add_test(tc1_1, less_or_equal_26);
+  tcase_add_test(tc1_1, less_or_equal_27);
+  tcase_add_test(tc1_1, less_or_equal_28);
+  tcase_add_test(tc1_1, less_or_equal_29);
+  tcase_add_test(tc1_1, less_or_equal_30);
+  tcase_add_test(tc1_1, less_or_equal_31);
+  tcase_add_test(tc1_1, less_or_equal_32);
+  tcase_add_test(tc1_1, less_or_equal_33);
+  tcase_add_test(tc1_1, less_or_equal_34);
+  tcase_add_test(tc1_1, less_or_equal_35);
+  tcase_add_test(tc1_1, less_or_equal_36);
+  tcase_add_test(tc1_1, less_or_equal_37);
+  tcase_add_test(tc1_1, less_or_equal_38);
+  tcase_add_test(tc1_1, less_or_equal_39);
+  tcase_add_test(tc1_1, less_or_equal_40);
+  tcase_add_test(tc1_1, greater_1);
+  tcase_add_test(tc1_1, greater_2);
+  tcase_add_test(tc1_1, greater_3);
+  tcase_add_test(tc1_1, greater_4);
+  tcase_add_test(tc1_1, greater_5);
+  tcase_add_test(tc1_1, greater_6);
+  tcase_add_test(tc1_1, greater_7);
+  tcase_add_test(tc1_1, greater_8);
+  tcase_add_test(tc1_1, greater_9);
+  tcase_add_test(tc1_1, greater_10);
+  tcase_add_test(tc1_1, greater_11);
+  tcase_add_test(tc1_1, greater_12);
+  tcase_add_test(tc1_1, greater_13);
+  tcase_add_test(tc1_1, greater_14);
+  tcase_add_test(tc1_1, greater_15);
+  tcase_add_test(tc1_1, greater_16);
+  tcase_add_test(tc1_1, greater_17);
+  tcase_add_test(tc1_1, greater_18);
+  tcase_add_test(tc1_1, greater_19);
+  tcase_add_test(tc1_1, greater_20);
+  tcase_add_test(tc1_1, greater_21);
+  tcase_add_test(tc1_1, greater_22);
+  tcase_add_test(tc1_1, greater_23);
+  tcase_add_test(tc1_1, greater_24);
+  tcase_add_test(tc1_1, greater_25);
+  tcase_add_test(tc1_1, greater_26);
+  tcase_add_test(tc1_1, greater_27);
+  tcase_add_test(tc1_1, greater_28);
+  tcase_add_test(tc1_1, greater_29);
+  tcase_add_test(tc1_1, greater_30);
+  tcase_add_test(tc1_1, greater_31);
+  tcase_add_test(tc1_1, greater_32);
+  tcase_add_test(tc1_1, greater_33);
+  tcase_add_test(tc1_1, greater_34);
+  tcase_add_test(tc1_1, greater_35);
+  tcase_add_test(tc1_1, greater_36);
+  tcase_add_test(tc1_1, greater_37);
+  tcase_add_test(tc1_1, greater_38);
+  tcase_add_test(tc1_1, greater_39);
+  tcase_add_test(tc1_1, greater_40);
+  tcase_add_test(tc1_1, greater_or_equal_1);
+  tcase_add_test(tc1_1, greater_or_equal_2);
+  tcase_add_test(tc1_1, greater_or_equal_3);
+  tcase_add_test(tc1_1, greater_or_equal_4);
+  tcase_add_test(tc1_1, greater_or_equal_5);
+  tcase_add_test(tc1_1, greater_or_equal_6);
+  tcase_add_test(tc1_1, greater_or_equal_7);
+  tcase_add_test(tc1_1, greater_or_equal_8);
+  tcase_add_test(tc1_1, greater_or_equal_9);
+  tcase_add_test(tc1_1, greater_or_equal_10);
+  tcase_add_test(tc1_1, greater_or_equal_11);
+  tcase_add_test(tc1_1, greater_or_equal_12);
+  tcase_add_test(tc1_1, greater_or_equal_13);
+  tcase_add_test(tc1_1, greater_or_equal_14);
+  tcase_add_test(tc1_1, greater_or_equal_15);
+  tcase_add_test(tc1_1, greater_or_equal_16);
+  tcase_add_test(tc1_1, greater_or_equal_17);
+  tcase_add_test(tc1_1, greater_or_equal_18);
+  tcase_add_test(tc1_1, greater_or_equal_19);
+  tcase_add_test(tc1_1, greater_or_equal_20);
+  tcase_add_test(tc1_1, greater_or_equal_21);
+  tcase_add_test(tc1_1, greater_or_equal_22);
+  tcase_add_test(tc1_1, greater_or_equal_23);
+  tcase_add_test(tc1_1, greater_or_equal_24);
+  tcase_add_test(tc1_1, greater_or_equal_25);
+  tcase_add_test(tc1_1, greater_or_equal_26);
+  tcase_add_test(tc1_1, greater_or_equal_27);
+  tcase_add_test(tc1_1, greater_or_equal_28);
+  tcase_add_test(tc1_1, greater_or_equal_29);
+  tcase_add_test(tc1_1, greater_or_equal_30);
+  tcase_add_test(tc1_1, greater_or_equal_31);
+  tcase_add_test(tc1_1, greater_or_equal_32);
+  tcase_add_test(tc1_1, greater_or_equal_33);
+  tcase_add_test(tc1_1, greater_or_equal_34);
+  tcase_add_test(tc1_1, greater_or_equal_35);
+  tcase_add_test(tc1_1, greater_or_equal_36);
+  tcase_add_test(tc1_1, greater_or_equal_37);
+  tcase_add_test(tc1_1, greater_or_equal_38);
+  tcase_add_test(tc1_1, greater_or_equal_39);
+  tcase_add_test(tc1_1, greater_or_equal_40);
   srunner_add_suite(sr, s1);
 }
 

@@ -8,12 +8,12 @@ OBJECTS = comparison.o
 
 all: clean test 
 
-s21_decimal.a:
+decimal.a:
 	$(CC) $(CFLAGS) -c $(SRCFILE)
 	@ar rcs comparison.a $(OBJECTS)
 	ranlib comparison.a
 
-test: s21_decimal.a
+test: decimal.a
 ifeq ($(OS), Darwin)
 	gcc test.c comparison.a  -o test `pkg-config --cflags --libs check` -lcheck -lpthread 
 	./test
@@ -56,11 +56,11 @@ style: test
 leaks: test
 ifeq ($(OS), Darwin)
 	CK_FORK=no leaks --atExit -- ./test
-	rm -rf s21_decimal.o
+	rm -rf decimal.o
 else
 	#sudo dnf install valgrind
 	#$(VALGRIND) --leak-check=full --show-leak-kinds=all ./test
-	rm -rf s21_decimal.o
+	rm -rf decimal.o
 endif
 
 clean:

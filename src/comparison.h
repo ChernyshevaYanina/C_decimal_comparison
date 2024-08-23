@@ -1,8 +1,8 @@
 #ifndef SRC_COMPARISON_H_
 #define SRC_COMPARISON_H_
 
-#include "s21_decimal.h"
-#include "s21_stepeni_dvuh.h"
+#include "decimal.h"
+#include "stepeni_dvuh.h"
 #include "string.h"
 
 #define SIZE_ONE \
@@ -24,7 +24,7 @@ typedef enum {
 void addZeroes(char* left, char* right);
 void clear(char* input, int size);
 void reverseString(char* string);
-void decimalMantisToBinary(s21_decimal value, char* binaryOutput);
+void decimalMantisToBinary(decimal value, char* binaryOutput);
 int getSign(int value);
 int getScale(int value);
 void baseTenCharArrayAdd(char* left, char* right, char* result);
@@ -32,8 +32,8 @@ void binaryToBaseTen(char* binary, char* output);
 void clearCharZeroes(char* input);
 int postavit_tochku(int tochka, char* stroka, char* integral,
                     char* fractional);  // переименовать
-int s21_compare(s21_decimal value_1, s21_decimal value_2);
-int checkSign(s21_decimal value_1, s21_decimal value_2);
+int compare(decimal value_1, decimal value_2);
+int checkSign(decimal value_1, decimal value_2);
 int checkLen(int left_len, int right_len, int both_negative);
 int checkNumber(const char* left_digits, const char* right_digits,
                 int both_negative);
